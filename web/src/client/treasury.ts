@@ -1,5 +1,5 @@
 import { WalletType } from "@/proto/fusionchain/treasury/wallet_pb";
-import { QueryKeyRequestsResponse, QueryKeysResponse, QuerySignTransactionRequestsResponse, QuerySignatureRequestByIdResponse, QuerySignatureRequestsResponse } from "../proto/fusionchain/treasury/query_pb";
+import { QueryKeyRequestByIdResponse, QueryKeyRequestsResponse, QueryKeysResponse, QuerySignTransactionRequestsResponse, QuerySignatureRequestByIdResponse, QuerySignatureRequestsResponse } from "../proto/fusionchain/treasury/query_pb";
 import { path, query } from "./common";
 
 export enum KeyRequestStatus {
@@ -16,6 +16,14 @@ export enum KeyRequestStatusVal {
 
 export enum KeyType {
   ECDSA = "KEY_TYPE_ECDSA",
+}
+
+export async function keyRequestById(
+  keyRequestId: number | bigint,
+): Promise<QueryKeyRequestByIdResponse> {
+  const p = path(["fusionchain", "treasury", "key_request_by_id"], { id: keyRequestId });
+  const data = await query(p);
+  return QueryKeyRequestByIdResponse.fromJson(data);
 }
 
 export async function keyRequests(
