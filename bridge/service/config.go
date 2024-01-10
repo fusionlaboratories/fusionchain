@@ -28,6 +28,8 @@ var (
 	defaultFusionURL     = "localhost:9090"
 	defaultFusionChainID = "qredofusiontestnet_257-1"
 
+	defaultQredochainURL = "localhost:26657"
+
 	defaultHandlerTimeout = 60 * time.Second
 	defaultQueryTimeout   = 5 * time.Second
 
@@ -51,6 +53,7 @@ type ServiceConfig struct {
 	FusionURL     string `yaml:"fusionurl"`
 	Password      string `yaml:"password"` // User supplied passphrase.
 	Mnemonic      string `yaml:"mnemonic"` // (Optional) The user can supply a mnemonic or one will be generated.
+	QredochainURL string `yaml:"qredochainurl"`
 	IDDocSeed     string `yaml:"iddocseed"`
 	LogLevel      string `yaml:"loglevel"`
 	LogFormat     string `yaml:"logformat"`
@@ -73,6 +76,7 @@ var defaultConfig = ServiceConfig{
 	Mnemonic:      "", // will be generated if no supplied by the user
 	Password:      "", // must be user supplied
 	IDDocSeed:     "", // must be user supplied
+	QredochainURL: defaultQredochainURL,
 	QueryInterval: defaultQueryInterval,
 	MaxTries:      defaultMaxRetries,
 }
