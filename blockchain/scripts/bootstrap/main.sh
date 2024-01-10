@@ -10,6 +10,7 @@ SCRIPT=$(basename "${BASH_SOURCE[0]}")
 N_VALIDATORS=1
 KEYRING_BACKEND="test"
 CHAIN_ID="local_420-1"
+BOND_COINS="1000000000000000000000nQRDO"
 ARTIFACTS_DIR="$DIR/artifacts"
 GENESIS="$ARTIFACTS_DIR/config/genesis.json"
 
@@ -19,6 +20,7 @@ usage() {
     echo "-n <number>  -- number of validators"
     echo "-k <string>  -- keyring backend (os|file|test|pass|kwallet|memory)"
     echo "-c <string>  -- chain ID"
+    echo "-b <string>  -- amount of coins to bond"
     exit 1
 }
 
@@ -28,6 +30,7 @@ while getopts "h?n:k:c:" args; do
         n ) N_VALIDATORS=${OPTARG};;
         k ) KEYRING_BACKEND=${OPTARG};;
         c ) CHAIN_ID=${OPTARG};;
+        b ) BOND_COINS=${OPTARG};;
     esac
 done
 
@@ -63,7 +66,7 @@ for i in $(seq "$N_VALIDATORS"); do
         fi
         echo "$pass" | $FUSIOND_BIN add-genesis-account "validator_operator_$i" 100000000000000000000000000nQRDO \
             --keyring-backend "$KEYRING_BACKEND" --home "$ARTIFACTS_DIR"
-        echo "$pass" | $FUSIOND_BIN gentx "validator_operator_$i" 1000000000000000000000nQRDO \
+        echo "$pass" | $FUSIOND_BIN gentx "validator_operator_$i" "$BOND_COINS" \
             --keyring-backend "$KEYRING_BACKEND" --chain-id "$CHAIN_ID" --home "$ARTIFACTS_DIR" \
             --moniker "validator-$i" --note "validator-$i"
     else
@@ -71,7 +74,7 @@ for i in $(seq "$N_VALIDATORS"); do
             tail -n2 | head -n1 > "$ARTIFACTS_DIR/mnemonic_$i"
         $FUSIOND_BIN add-genesis-account "validator_operator_$i" 100000000000000000000000000nQRDO \
             --keyring-backend "$KEYRING_BACKEND" --home "$ARTIFACTS_DIR"
-        $FUSIOND_BIN gentx "validator_operator_$i" 1000000000000000000000nQRDO --keyring-backend "$KEYRING_BACKEND" \
+        $FUSIOND_BIN gentx "validator_operator_$i" "$BOND_COINS" --keyring-backend "$KEYRING_BACKEND" \
             --chain-id "$CHAIN_ID" --home "$ARTIFACTS_DIR" --moniker "validator-$i" --note "validator-$i"
     fi
 
