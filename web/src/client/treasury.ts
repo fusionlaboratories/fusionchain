@@ -38,7 +38,15 @@ export async function keyRequests(
   return QueryKeyRequestsResponse.fromJson(data);
 }
 
-export async function keys(workspaceAddr: string, walletType?: WalletType, keyId?: number ): Promise<QueryKeysResponse> {
+export async function keys({
+  workspaceAddr,
+  walletType,
+  keyId,
+}: {
+  workspaceAddr?: string,
+  walletType?: WalletType,
+  keyId?: number,
+}): Promise<QueryKeysResponse> {
   const data = await query(path(["fusionchain", "treasury", "keys"], {
     workspace_addr: workspaceAddr,
     type: walletType,

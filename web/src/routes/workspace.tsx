@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router";
 import { Link, Params } from "react-router-dom";
 import { useKeplrAddress } from "../keplr";
 import { MsgNewKeyRequest, MsgNewKeyRequestResponse } from "../proto/fusionchain/treasury/tx_pb";
-import { KeyRequestStatus, KeyType } from "../proto/fusionchain/treasury/key_pb";
+import { KeyRequest, KeyRequestStatus, KeyType } from "../proto/fusionchain/treasury/key_pb";
 import Keys from "../components/keys";
 import KeyRequests from "../components/key_requests";
 import { workspaceByAddress } from "../client/identity";
@@ -17,10 +17,10 @@ import { useBroadcaster } from "@/hooks/keplr";
 import WorkspacePolicyCard from "@/components/workspace_policy_card";
 import useKeyringAddress from "@/hooks/useKeyringAddress";
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { TxMsgData } from "cosmjs-types/cosmos/base/abci/v1beta1/abci";
 import { keyRequestById } from "@/client/treasury";
+import ProgressStep from "@/components/ui/progress-step";
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -38,9 +38,11 @@ function useKeyRequester() {
   const { broadcast } = useBroadcaster();
   const [state, setState] = useState<KeyRequesterState>(KeyRequesterState.IDLE);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [keyRequest, setKeyRequest] = useState<KeyRequest | undefined>(undefined);
 
   return {
     state,
+    keyRequest,
     error,
     requestKey: async (keyringAddress: string, addr: string, workspaceAddr: string) => {
       try {
@@ -69,6 +71,7 @@ function useKeyRequester() {
         // wait for sign request to be processed
         while (true) {
           const res = await keyRequestById(keyRequestId);
+          setKeyRequest(res.keyRequest);
           if (res?.keyRequest?.status === KeyRequestStatus.PENDING) {
             await sleep(1000);
             continue;
@@ -87,25 +90,10 @@ function useKeyRequester() {
       }
     },
     reset: () => {
-      if (state === KeyRequesterState.KEY_FULFILLED) {
+      if (state === KeyRequesterState.KEY_FULFILLED || state === KeyRequesterState.ERROR) {
         setState(KeyRequesterState.IDLE);
       }
     },
-  }
-}
-
-function textForState(state: KeyRequesterState) {
-  switch (state) {
-    case KeyRequesterState.IDLE:
-      return "";
-    case KeyRequesterState.BROADCAST_KEY_REQUEST:
-      return "Waiting for Keplr to broadcast the request to Fusion Chain...";
-    case KeyRequesterState.WAITING_KEYRING:
-      return "Waiting for keyring to accept the request...";
-    case KeyRequesterState.KEY_FULFILLED:
-      return "Key request fulfilled!";
-    case KeyRequesterState.ERROR:
-      return "Error!";
   }
 }
 
@@ -119,14 +107,76 @@ function progressForState(state: KeyRequesterState) {
       return 50;
     case KeyRequesterState.KEY_FULFILLED:
       return 100;
+    default:
+      return 0;
   }
+}
+
+function KeyRequestDialog({ state, error, keyRequest, reset }: { state: KeyRequesterState, error: string | undefined, keyRequest: KeyRequest | undefined, reset: () => void }) {
+  return (
+    <AlertDialog open={state !== "idle"}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>New key request</AlertDialogTitle>
+          <AlertDialogDescription>
+            <div className="flex flex-col gap-4">
+              <ProgressStep loading={state === KeyRequesterState.BROADCAST_KEY_REQUEST} done={progressForState(state) > progressForState(KeyRequesterState.BROADCAST_KEY_REQUEST)}>
+                <span className="font-bold">Request key</span>
+                <span>Use Keplr to sign and broadcast a new key request for this workspace</span>
+              </ProgressStep>
+
+              <ProgressStep loading={state === KeyRequesterState.WAITING_KEYRING} done={progressForState(state) > progressForState(KeyRequesterState.WAITING_KEYRING)}>
+                <span className="font-bold">Waiting for keyring</span>
+                <span>The keyring will pick up your request, generate a new key, and send it back to Fusion</span>
+              </ProgressStep>
+
+              <ProgressStep loading={false} done={progressForState(state) >= progressForState(KeyRequesterState.KEY_FULFILLED)}>
+                <span className="font-bold">Key generated</span>
+                <span>Your new key is ready to be used</span>
+              </ProgressStep>
+
+              {
+                state === KeyRequesterState.ERROR && (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <span className="text-red-800">{error}</span>
+                    <div className="flex flex-row gap-4">
+                      <Button size="sm" variant="secondary" onClick={() => reset()}>
+                        Close
+                      </Button>
+                    </div>
+                  </div>
+                )
+              }
+
+              {
+                state === KeyRequesterState.KEY_FULFILLED && (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <div className="flex flex-row gap-4">
+                      <Link to={`/keys/${keyRequest?.id}`}>
+                        <Button size="sm">
+                          Open key #{keyRequest?.id.toString()}
+                        </Button>
+                      </Link>
+                      <Button size="sm" variant="secondary" onClick={() => reset()}>
+                        Close
+                      </Button>
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
 }
 
 function Workspace() {
   const addr = useKeplrAddress();
   const [keyringAddress, _] = useKeyringAddress();
   const { broadcast } = useBroadcaster();
-  const { state, error, requestKey, reset } = useKeyRequester();
+  const { state, error, keyRequest, requestKey, reset } = useKeyRequester();
   const { workspaceAddr } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const wsQuery = useQuery({
     queryKey: ["workspace", workspaceAddr],
@@ -150,10 +200,10 @@ function Workspace() {
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink to="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href={`/workspaces/${workspaceAddr}`}>Workspace {workspaceAddr}</BreadcrumbLink>
+          <BreadcrumbLink to={`/workspaces/${workspaceAddr}`}>Workspace {workspaceAddr}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
@@ -215,42 +265,7 @@ function Workspace() {
                     ({keyringAddress})
                   </span>
                 </Button>
-                <AlertDialog open={state !== "idle"}>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>New key request</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {textForState(state)}
-                        {
-                          progressForState(state) ? (
-                            <Progress value={progressForState(state)} />
-                          ) : null
-                        }
-                        {
-                          state === KeyRequesterState.KEY_FULFILLED ? (
-                            <div className="mt-4">
-                              <Button onClick={() => reset()}>
-                                Okay
-                              </Button>
-                            </div>
-                          ) : null
-                        }
-                        {
-                          state === KeyRequesterState.ERROR ? (
-                            <div>
-                              <p>{error}</p>
-                              <div className="mt-4">
-                                <Button onClick={() => reset()}>
-                                  Okay
-                                </Button>
-                              </div>
-                            </div>
-                          ) : null
-                        }
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <KeyRequestDialog state={state} error={error} keyRequest={keyRequest} reset={reset} />
               </>
             ) : (
               <Link to={`/keyrings`}>
