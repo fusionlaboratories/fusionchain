@@ -14,20 +14,21 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 )
 
 var (
-	AppVersion = "0.0.0"
-	GitCommit  = ""
-	BuildDate  = ""
-	GoVersion  = ""
-	GoArch     = ""
+	GitCommit = ""
+	BuildDate = ""
+	GoVersion = ""
+	GoArch    = ""
 
 	linkedCommit string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedCommit=$commit_hash'"
 	linkedDate   string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedDate=$build_date'"
+	linkedSemVer string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedSemVer=$semantic_version'"
 )
 
 // CommitHash returns the first 8 characters of the git commit hash
@@ -47,6 +48,23 @@ var CommitHash = func() string {
 	return "00000000"
 }()
 
+// SemanticVersion returns the semantic version
+// https://icinga.com/blog/2022/05/25/embedding-git-commit-information-in-go-binaries/
+var SemanticVersion = func() string {
+	// Permitted tag formats
+	//
+	// "fusiond@1.0.0" OR "1.0.0"
+	//
+	if strings.Contains(linkedSemVer, "fusiond") {
+		strs := strings.Split(linkedSemVer, "@")
+		if len(strs) != 2 {
+			panic(fmt.Sprintf("unexpected server string, got %v", linkedSemVer))
+		}
+		return strs[1]
+	}
+	return "0.0.0"
+}()
+
 // Date returns the compilation build time
 var Date = func() string {
 	if linkedDate != "" {
@@ -56,8 +74,8 @@ var Date = func() string {
 }()
 
 func init() {
-	if len(AppVersion) == 0 {
-		AppVersion = "dev"
+	if len(SemanticVersion) == 0 {
+		SemanticVersion = "0.0.0"
 	}
 
 	GoVersion = runtime.Version()
@@ -69,7 +87,7 @@ func init() {
 func Version() string {
 	return fmt.Sprintf(
 		"Version %s (GitCommit %s)\nCompiled at %s using Go %s (%s)",
-		AppVersion,
+		SemanticVersion,
 		GitCommit,
 		BuildDate,
 		GoVersion,
