@@ -68,7 +68,9 @@ ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=fusion \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
 		  -X github.com/tendermint/tendermint/version.TMCoreSemVer=$(TMVERSION) \
-	      -X "github.com/qredo/fusionchain/blockchain/version.linkedDate=$(VERSION_DATE)"
+	      -X "github.com/qredo/fusionchain/blockchain/version.linkedDate=$(VERSION_DATE)" \
+		  -X "github.com/qredo/fusionchain/blockchain/version.linkedSemVer=$(VERSION)" \
+		  -X "github.com/qredo/fusionchain/blockchain/version.linkedCommit=$(COMMIT)" 
 
 # DB backend selection
 ifeq (cleveldb,$(findstring cleveldb,$(COSMOS_BUILD_OPTIONS)))
