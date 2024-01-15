@@ -14,17 +14,17 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 )
 
 var (
-	AppVersion = "0.0.0"
-	GitCommit  = ""
-	BuildDate  = ""
-	GoVersion  = ""
-	GoArch     = ""
+	GitCommit = ""
+	BuildDate = ""
+	GoVersion = ""
+	GoArch    = ""
 
 	linkedCommit string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedCommit=$commit_hash'"
 	linkedDate   string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedDate=$build_date'"
@@ -51,8 +51,16 @@ var CommitHash = func() string {
 // SemanticVersion returns the semantic version
 // https://icinga.com/blog/2022/05/25/embedding-git-commit-information-in-go-binaries/
 var SemanticVersion = func() string {
-	if linkedSemVer != "" {
-		return linkedSemVer
+	// Permitted tag formats
+	//
+	// "fusiond@1.0.0" OR "1.0.0"
+	//
+	if strings.Contains(linkedSemVer, "fusiond") {
+		strs := strings.Split(linkedSemVer, "@")
+		if len(strs) != 2 {
+			panic(fmt.Sprintf("unexpected server string, got %v", linkedSemVer))
+		}
+		return strs[1]
 	}
 	return "0.0.0"
 }()
