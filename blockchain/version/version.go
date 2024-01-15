@@ -62,6 +62,9 @@ var SemanticVersion = func() string {
 		}
 		return strs[1]
 	}
+	if linkedSemVer != "" {
+		return linkedSemVer
+	}
 	return "0.0.0"
 }()
 
