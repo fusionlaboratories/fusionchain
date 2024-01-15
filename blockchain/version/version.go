@@ -20,10 +20,11 @@ import (
 )
 
 var (
-	GitCommit = ""
-	BuildDate = ""
-	GoVersion = ""
-	GoArch    = ""
+	AppVersion = "0.0.0"
+	GitCommit  = ""
+	BuildDate  = ""
+	GoVersion  = ""
+	GoArch     = ""
 
 	linkedCommit string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedCommit=$commit_hash'"
 	linkedDate   string // overwritten by -ldflag "-X 'github.com/qredo/fusionchain/blockchain/version.linkedDate=$build_date'"
