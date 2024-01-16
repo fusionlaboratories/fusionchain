@@ -20,7 +20,7 @@ import (
 	"github.com/qredo/fusionchain/x/identity/types"
 )
 
-func TestKeeper_KeyringByID(t *testing.T) {
+func TestKeeper_KeyringByAddress(t *testing.T) {
 
 	type args struct {
 		msg *types.MsgNewKeyring

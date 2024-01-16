@@ -54,8 +54,7 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 			}
 			got, err := msgSer.AddWorkspaceOwner(goCtx, tt.args.msg)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("AddWorkspaceOwner() error = %v, wantErr %v", err, tt.wantErr)
-				return
+				t.Fatalf("AddWorkspaceOwner() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("AddWorkspaceOwner() got = %v, want %v", got, tt.want)
