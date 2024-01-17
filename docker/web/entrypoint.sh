@@ -26,9 +26,6 @@ if [ "$1" = 'nginx-fe' ]; then
         replace_var FUSION_CHAIN_ID_NUM "$filename"
         replace_var FUSION_CHAIN_NAME "$filename"
         replace_var BLACKBIRD_API_URL "$filename"
-        replace_var FUSION_CHAIN_ID "$filename"
-        replace_var FUSION_CHAIN_ID_NUM "$filename"
-        replace_var FUSION_CHAIN_NAME "$filename"
     done
 
     exec nginx -g "daemon off;"
