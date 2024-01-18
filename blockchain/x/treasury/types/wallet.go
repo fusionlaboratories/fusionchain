@@ -61,4 +61,4 @@ type TxParser interface {
 	ParseTx(b []byte, m Metadata) (Transfer, error)
 }
 
-type Metadata interface{}
+type Metadata any

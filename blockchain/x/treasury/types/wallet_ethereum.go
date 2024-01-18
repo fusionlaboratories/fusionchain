@@ -44,7 +44,7 @@ func (w *EthereumWallet) Address() string {
 	return addr.Hex()
 }
 
-func (w *EthereumWallet) ParseTx(b []byte, m Metadata) (Transfer, error) {
+func (*EthereumWallet) ParseTx(b []byte, m Metadata) (Transfer, error) {
 	meta, ok := m.(*MetadataEthereum)
 	if !ok || meta == nil {
 		return Transfer{}, fmt.Errorf("invalid metadata field, expected *MetadataEthereum, got %T", m)
