@@ -509,6 +509,11 @@ export class MsgNewSignTransactionRequest extends Message<MsgNewSignTransactionR
    */
   btl = protoInt64.zero;
 
+  /**
+   * @generated from field: fusionchain.treasury.MetaData metadata = 6;
+   */
+  metadata?: MetaData;
+
   constructor(data?: PartialMessage<MsgNewSignTransactionRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -522,6 +527,7 @@ export class MsgNewSignTransactionRequest extends Message<MsgNewSignTransactionR
     { no: 3, name: "wallet_type", kind: "enum", T: proto3.getEnumType(WalletType) },
     { no: 4, name: "unsigned_transaction", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
     { no: 5, name: "btl", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 6, name: "metadata", kind: "message", T: MetaData },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MsgNewSignTransactionRequest {
@@ -581,6 +587,43 @@ export class MsgNewSignTransactionRequestResponse extends Message<MsgNewSignTran
 
   static equals(a: MsgNewSignTransactionRequestResponse | PlainMessage<MsgNewSignTransactionRequestResponse> | undefined, b: MsgNewSignTransactionRequestResponse | PlainMessage<MsgNewSignTransactionRequestResponse> | undefined): boolean {
     return proto3.util.equals(MsgNewSignTransactionRequestResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message fusionchain.treasury.MetaData
+ */
+export class MetaData extends Message<MetaData> {
+  /**
+   * @generated from field: bytes chain_id = 1;
+   */
+  chainId = new Uint8Array(0);
+
+  constructor(data?: PartialMessage<MetaData>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "fusionchain.treasury.MetaData";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "chain_id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MetaData {
+    return new MetaData().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): MetaData {
+    return new MetaData().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): MetaData {
+    return new MetaData().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: MetaData | PlainMessage<MetaData> | undefined, b: MetaData | PlainMessage<MetaData> | undefined): boolean {
+    return proto3.util.equals(MetaData, a, b);
   }
 }
 
