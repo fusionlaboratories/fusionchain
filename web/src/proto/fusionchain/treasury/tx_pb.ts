@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, protoInt64 } from "@bufbuild/protobuf";
+import { Any, Message, proto3, protoInt64 } from "@bufbuild/protobuf";
 import { KeyRequestStatus, KeyType } from "./key_pb.js";
 import { SignRequestStatus } from "./mpcsign_pb.js";
 import { WalletType } from "./wallet_pb.js";
@@ -510,9 +510,11 @@ export class MsgNewSignTransactionRequest extends Message<MsgNewSignTransactionR
   btl = protoInt64.zero;
 
   /**
-   * @generated from field: fusionchain.treasury.MetaData metadata = 6;
+   * Additional metadata required when parsing the unsigned transaction.
+   *
+   * @generated from field: google.protobuf.Any metadata = 6;
    */
-  metadata?: MetaData;
+  metadata?: Any;
 
   constructor(data?: PartialMessage<MsgNewSignTransactionRequest>) {
     super();
@@ -527,7 +529,7 @@ export class MsgNewSignTransactionRequest extends Message<MsgNewSignTransactionR
     { no: 3, name: "wallet_type", kind: "enum", T: proto3.getEnumType(WalletType) },
     { no: 4, name: "unsigned_transaction", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
     { no: 5, name: "btl", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
-    { no: 6, name: "metadata", kind: "message", T: MetaData },
+    { no: 6, name: "metadata", kind: "message", T: Any },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MsgNewSignTransactionRequest {
@@ -591,39 +593,39 @@ export class MsgNewSignTransactionRequestResponse extends Message<MsgNewSignTran
 }
 
 /**
- * @generated from message fusionchain.treasury.MetaData
+ * @generated from message fusionchain.treasury.MetadataEthereum
  */
-export class MetaData extends Message<MetaData> {
+export class MetadataEthereum extends Message<MetadataEthereum> {
   /**
-   * @generated from field: bytes chain_id = 1;
+   * @generated from field: uint64 chain_id = 1;
    */
-  chainId = new Uint8Array(0);
+  chainId = protoInt64.zero;
 
-  constructor(data?: PartialMessage<MetaData>) {
+  constructor(data?: PartialMessage<MetadataEthereum>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "fusionchain.treasury.MetaData";
+  static readonly typeName = "fusionchain.treasury.MetadataEthereum";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "chain_id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 1, name: "chain_id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MetaData {
-    return new MetaData().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MetadataEthereum {
+    return new MetadataEthereum().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): MetaData {
-    return new MetaData().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): MetadataEthereum {
+    return new MetadataEthereum().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): MetaData {
-    return new MetaData().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): MetadataEthereum {
+    return new MetadataEthereum().fromJsonString(jsonString, options);
   }
 
-  static equals(a: MetaData | PlainMessage<MetaData> | undefined, b: MetaData | PlainMessage<MetaData> | undefined): boolean {
-    return proto3.util.equals(MetaData, a, b);
+  static equals(a: MetadataEthereum | PlainMessage<MetadataEthereum> | undefined, b: MetadataEthereum | PlainMessage<MetadataEthereum> | undefined): boolean {
+    return proto3.util.equals(MetadataEthereum, a, b);
   }
 }
 
