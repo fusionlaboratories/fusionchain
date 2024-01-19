@@ -16,16 +16,39 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	keepertest "github.com/qredo/fusionchain/testutil/keeper"
+	"github.com/qredo/fusionchain/x/identity"
 	"github.com/qredo/fusionchain/x/identity/keeper"
 	"github.com/qredo/fusionchain/x/identity/types"
 )
 
+var defaultKr = types.Keyring{
+	Address:       "qredokeyring1ph63us46lyw56vrzgaq",
+	Creator:       "testCreator",
+	Description:   "testDescription",
+	Admins:        []string{"testCreator"},
+	Parties:       []string{},
+	AdminPolicyId: 0,
+	Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
+	IsActive:      true,
+}
+
+var wantKr = types.Keyring{
+	Address:       "qredokeyring1ph63us46lyw56vrzgaq",
+	Creator:       "testCreator",
+	Description:   "testDescription",
+	Admins:        []string{"testCreator"},
+	Parties:       []string{"testParty"},
+	AdminPolicyId: 0,
+	Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
+	IsActive:      true,
+}
+
 func Test_msgServer_AddKeyringParty(t *testing.T) {
 
 	type args struct {
-		msg        *types.MsgAddKeyringParty
-		msg2       *types.MsgAddKeyringParty
-		msgKeyring *types.MsgNewKeyring
+		keyring *types.Keyring
+		msg     *types.MsgAddKeyringParty
+		msg2    *types.MsgAddKeyringParty
 	}
 	tests := []struct {
 		name        string
@@ -38,26 +61,18 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 		{
 			name: "add a party to a keyring",
 			args: args{
-				msgKeyring: types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
-				msg:        types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
-				msg2:       types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty2"),
+				keyring: &defaultKr,
+				msg:     types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
+				msg2:    types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty2"),
 			},
-			want: &types.MsgAddKeyringPartyResponse{},
-			wantKeyring: &types.Keyring{
-				Address:     "qredokeyring1ph63us46lyw56vrzgaq",
-				Creator:     "testCreator",
-				Description: "testDescription",
-				Admins:      []string{"testCreator"},
-				Parties:     []string{"testParty"},
-				Fees:        &types.KeyringFees{KeyReq: 0, SigReq: 0},
-				IsActive:    true,
-			},
+			want:        &types.MsgAddKeyringPartyResponse{},
+			wantKeyring: &wantKr,
 		},
 		{
 			name: "keyring not found",
 			args: args{
-				msgKeyring: types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
-				msg:        types.NewMsgAddKeyringParty("testCreator", "invalidKeyring", "testParty"),
+				keyring: &defaultKr,
+				msg:     types.NewMsgAddKeyringParty("testCreator", "invalidKeyring", "testParty"),
 			},
 			want:    &types.MsgAddKeyringPartyResponse{},
 			wantErr: true,
@@ -65,27 +80,37 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 		{
 			name: "party is already in the keyring",
 			args: args{
-				msgKeyring: types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
-				msg:        types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
-				msg2:       types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
+				keyring: &defaultKr,
+				msg:     types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
+				msg2:    types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
 			},
-			want: &types.MsgAddKeyringPartyResponse{},
-			wantKeyring: &types.Keyring{
-				Address:     "qredokeyring1ph63us46lyw56vrzgaq",
-				Creator:     "testCreator",
-				Description: "testDescription",
-				Admins:      []string{"testCreator"},
-				Parties:     []string{"testParty"},
-				Fees:        &types.KeyringFees{KeyReq: 0, SigReq: 0},
-				IsActive:    true,
-			},
-			wantErr2: true,
+			want:        &types.MsgAddKeyringPartyResponse{},
+			wantKeyring: &wantKr,
+			wantErr2:    true,
 		},
 		{
 			name: "creator no keyring admin",
 			args: args{
-				msgKeyring: types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
-				msg:        types.NewMsgAddKeyringParty("notKeyringAdmin", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
+				keyring: &defaultKr,
+				msg:     types.NewMsgAddKeyringParty("notKeyringAdmin", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
+			},
+			want:    &types.MsgAddKeyringPartyResponse{},
+			wantErr: true,
+		},
+		{
+			name: "inactive keyring",
+			args: args{
+				keyring: &types.Keyring{
+					Address:       "qredokeyring1ph63us46lyw56vrzgaq",
+					Creator:       "testCreator",
+					Description:   "testDescription",
+					Admins:        []string{"testCreator"},
+					Parties:       []string{},
+					AdminPolicyId: 0,
+					Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
+					IsActive:      false,
+				},
+				msg: types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
 			},
 			want:    &types.MsgAddKeyringPartyResponse{},
 			wantErr: true,
@@ -96,10 +121,12 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			ik, ctx := keepertest.IdentityKeeper(t)
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*ik)
-			keyringRes, err := msgSer.NewKeyring(goCtx, tt.args.msgKeyring)
-			if err != nil {
-				t.Fatalf("NewKeyring() error = %v", err)
+
+			genesis := types.GenesisState{
+				Keyrings: []types.Keyring{*tt.args.keyring},
 			}
+			identity.InitGenesis(ctx, *ik, genesis)
+
 			got, err := msgSer.AddKeyringParty(goCtx, tt.args.msg)
 			if (err != nil) != tt.wantErr {
 				t.Fatalf("AddKeyringParty() error = %v, wantErr %v", err, tt.wantErr)
@@ -116,7 +143,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 				if !reflect.DeepEqual(got, tt.want) {
 					t.Fatalf("AddKeyringParty() got = %v, want %v", got, tt.want)
 				}
-				gotKeyring := ik.GetKeyring(ctx, keyringRes.Address)
+				gotKeyring := ik.GetKeyring(ctx, tt.args.keyring.Address)
 
 				if !reflect.DeepEqual(gotKeyring, tt.wantKeyring) {
 					t.Fatalf("NewKeyring() got = %v, want %v", gotKeyring, tt.wantKeyring)
