@@ -1,3 +1,17 @@
+# fusiond [1.7.0](https://github.com/qredo/fusionchain/compare/fusiond@1.6.3...fusiond@1.7.0) (2024-01-19)
+
+
+### Features
+
+* **web:** add Metadata field to SignTransactionRequest ([#229](https://github.com/qredo/fusionchain/issues/229)) ([0faede2](https://github.com/qredo/fusionchain/commit/0faede2fd7437a2006da3fbcdbbbe7ab3243ee2b))
+
+## fusiond [1.6.3](https://github.com/qredo/fusionchain/compare/fusiond@1.6.2...fusiond@1.6.3) (2024-01-16)
+
+
+### Bug Fixes
+
+* **blockchain:** fusiond info cmd ([#222](https://github.com/qredo/fusionchain/issues/222)) ([9278185](https://github.com/qredo/fusionchain/commit/92781854526ce9e121eaa2d60d0b4414e2af5fd1))
+
 ## fusiond [1.6.2](https://github.com/qredo/fusionchain/compare/fusiond@1.6.1...fusiond@1.6.2) (2024-01-15)
 
 
