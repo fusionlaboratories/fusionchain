@@ -21,29 +21,29 @@ import (
 	"github.com/qredo/fusionchain/x/identity/types"
 )
 
-var defaultKr = types.Keyring{
-	Address:       "qredokeyring1ph63us46lyw56vrzgaq",
-	Creator:       "testCreator",
-	Description:   "testDescription",
-	Admins:        []string{"testCreator"},
-	Parties:       []string{},
-	AdminPolicyId: 0,
-	Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
-	IsActive:      true,
-}
-
-var wantKr = types.Keyring{
-	Address:       "qredokeyring1ph63us46lyw56vrzgaq",
-	Creator:       "testCreator",
-	Description:   "testDescription",
-	Admins:        []string{"testCreator"},
-	Parties:       []string{"testParty"},
-	AdminPolicyId: 0,
-	Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
-	IsActive:      true,
-}
-
 func Test_msgServer_AddKeyringParty(t *testing.T) {
+
+	var defaultKr = types.Keyring{
+		Address:       "qredokeyring1ph63us46lyw56vrzgaq",
+		Creator:       "testCreator",
+		Description:   "testDescription",
+		Admins:        []string{"testCreator"},
+		Parties:       []string{},
+		AdminPolicyId: 0,
+		Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
+		IsActive:      true,
+	}
+
+	var wantKr = types.Keyring{
+		Address:       "qredokeyring1ph63us46lyw56vrzgaq",
+		Creator:       "testCreator",
+		Description:   "testDescription",
+		Admins:        []string{"testCreator"},
+		Parties:       []string{"testParty"},
+		AdminPolicyId: 0,
+		Fees:          &types.KeyringFees{KeyReq: 0, SigReq: 0},
+		IsActive:      true,
+	}
 
 	type args struct {
 		keyring *types.Keyring
