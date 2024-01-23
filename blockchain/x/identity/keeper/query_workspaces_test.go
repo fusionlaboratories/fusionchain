@@ -48,7 +48,9 @@ func TestKeeper_Workspaces(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			for i := 0; i < tt.args.workspaceCount; i++ {
 				msgSer := keeper.NewMsgServerImpl(*ik)

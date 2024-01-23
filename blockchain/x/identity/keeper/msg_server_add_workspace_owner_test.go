@@ -30,8 +30,6 @@ var defaultWs = types.Workspace{
 }
 
 func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
-	t.SkipNow()
-	// todo: policystore for actions
 	type args struct {
 		workspace *types.Workspace
 		msg       *types.MsgAddWorkspaceOwner
@@ -49,13 +47,22 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 				workspace: &defaultWs,
 				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner2", 100),
 			},
-			want:    &types.MsgAddWorkspaceOwnerResponse{},
+			want: &types.MsgAddWorkspaceOwnerResponse{},
+			wantWorkspace: &types.Workspace{
+				Address:       "qredoworkspace14a2hpadpsy9h5m6us54",
+				Creator:       "testOwner",
+				Owners:        []string{"testOwner", "testOwner2"},
+				AdminPolicyId: 0,
+				SignPolicyId:  0,
+			},
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*ik)
 
