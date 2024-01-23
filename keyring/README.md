@@ -3,7 +3,7 @@
 Keyrings in Fusion describe the concept of an off-chain service that provides key services to Fusionchain users. 
 Upon request from the users through a workspace, keyrings create and store the key material locally and publish the public key information
 on Fusionchain from which the users can request signatures for various purposes.
-Once the signature request has been fulfilled a relayer, which the user can also run themselves, broadcasts the transaction to the intended destination.
+Once the signature request has been fulfilled, a relayer, which the user can also run themselves, broadcasts the transaction to the intended destination.
 
 ## Existing Keyrings
 
@@ -20,7 +20,7 @@ which frees the clients from the burden of managing all of their keys by themsel
 Having their own keyring can be beneficial if they want to be in full control of their key material while enjoying the benefits of Fusionchain.
 
 To onboard a new keyring, users can submit a `NewKeyring` transaction with a certain payload specifying the keyring and keyring settings.
-There will also be an onboarding fee as spam protection.
+There will also be an onboarding fee for spam protection.
 
 ### Keyring parties
 
@@ -37,8 +37,8 @@ This implementation should increase transparency and enable higher degree of col
 Keyring operators can directly charge a fee for key- and signature requests that will be paid in the native currency or possibly other IBC tokens in the future. 
 This directly creates a revenue stream for keyring operators to the respective keyring address. Keyring admins can manage these funds.
 
-A keyring object is managed on-chain by keyring admin. Apart from managing the keyring's funds, the admin can define certain policies that need
-to be met when managing the keyring. For example, a keyring policy defines how a keyring party is added 
+A keyring object is managed on-chain by keyring admins. Apart from managing the keyring's funds, the admin can define certain policies that need
+to be met when managing the keyring. For example, a keyring policy defines how a keyring party is added.
 
 ## Keyring Onboarding
 
@@ -50,7 +50,7 @@ This paragraph gives a step-by-step instruction how to onboard a new keyring to 
     * Admin Policy: Find the policy you want to have applied to the keyring. For default policies, add `0`.
     * Key Request Fee: Indicates how much a key creation should cost the requestor. Indicated in nQRDO.
     * Signature Request Fee: Indicates how much a signature request cost the requestor. Indicated in nQRDO
-3. A new keyring object is created on-chain with it's own dedicated keyring address.
+3. A new keyring object is created on-chain with its own dedicated keyring address.
 4. Add a keyring party with `AddKeyringParty` transaction. The fusion client inside the keyring infrastrucutre has its own fusion address. Only this address will be able to publish the responses. 
 5. Now the keyring is set up and users can request signatures with the respective keyring address. 
 
