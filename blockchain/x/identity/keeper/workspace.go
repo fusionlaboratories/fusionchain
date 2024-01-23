@@ -13,6 +13,7 @@ package keeper
 import (
 	"crypto/sha256"
 	"encoding/binary"
+	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -39,6 +40,7 @@ func (k Keeper) SetWorkspaceCount(ctx sdk.Context, c uint64) {
 func (k Keeper) GetWorkspace(ctx sdk.Context, addr string) *types.Workspace {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WorkspaceKey))
 	bz := store.Get([]byte(addr))
+	fmt.Println("Can't get workspace from store")
 	if bz == nil {
 		return nil
 	}
