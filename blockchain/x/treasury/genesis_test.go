@@ -27,9 +27,11 @@ func TestGenesis(t *testing.T) {
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
-	k, ctx := keepertest.TreasuryKeeper(t)
-	treasury.InitGenesis(ctx, *k, genesisState)
-	got := treasury.ExportGenesis(ctx, *k)
+	keepers := keepertest.NewTest(t)
+	tk := keepers.TreasuryKeeper
+	ctx := keepers.Ctx
+	treasury.InitGenesis(ctx, *tk, genesisState)
+	got := treasury.ExportGenesis(ctx, *tk)
 	require.NotNil(t, got)
 
 	nullify.Fill(&genesisState)

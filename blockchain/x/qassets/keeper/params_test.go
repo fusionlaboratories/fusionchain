@@ -13,16 +13,18 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "github.com/qredo/fusionchain/testutil/keeper"
+	keepertest "github.com/qredo/fusionchain/testutil/keeper"
 	"github.com/qredo/fusionchain/x/qassets/types"
 	"github.com/stretchr/testify/require"
 )
 
 func TestGetParams(t *testing.T) {
-	k, ctx := testkeeper.QassetsKeeper(t)
+	keepers := keepertest.NewTest(t)
+	qk := keepers.QassetsKeeper
+	ctx := keepers.Ctx
 	params := types.DefaultParams()
 
-	k.SetParams(ctx, params)
+	qk.SetParams(ctx, params)
 
-	require.EqualValues(t, params, k.GetParams(ctx))
+	require.EqualValues(t, params, qk.GetParams(ctx))
 }

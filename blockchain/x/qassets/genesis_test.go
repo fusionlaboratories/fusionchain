@@ -27,9 +27,11 @@ func TestGenesis(t *testing.T) {
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
-	k, ctx := keepertest.QassetsKeeper(t)
-	qassets.InitGenesis(ctx, *k, genesisState)
-	got := qassets.ExportGenesis(ctx, *k)
+	keepers := keepertest.NewTest(t)
+	qk := keepers.QassetsKeeper
+	ctx := keepers.Ctx
+	qassets.InitGenesis(ctx, *qk, genesisState)
+	got := qassets.ExportGenesis(ctx, *qk)
 	require.NotNil(t, got)
 
 	nullify.Fill(&genesisState)

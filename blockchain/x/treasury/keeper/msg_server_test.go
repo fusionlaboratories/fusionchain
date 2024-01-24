@@ -11,6 +11,8 @@ import (
 )
 
 func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {
-	k, ctx := keepertest.TreasuryKeeper(t)
-	return keeper.NewMsgServerImpl(*k), sdk.WrapSDKContext(ctx)
+	keepers := keepertest.NewTest(t)
+	tk := keepers.TreasuryKeeper
+	ctx := keepers.Ctx
+	return keeper.NewMsgServerImpl(*tk), sdk.WrapSDKContext(ctx)
 }

@@ -36,9 +36,11 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 	}
 
 	var defaultWs = idTypes.Workspace{
-		Address: "qredoworkspace14a2hpadpsy9h5m6us54",
-		Creator: "testCreator",
-		Owners:  []string{"testCreator"},
+		Address:       "qredoworkspace14a2hpadpsy9h5m6us54",
+		Creator:       "testCreator",
+		Owners:        []string{"testCreator"},
+		AdminPolicyId: 0,
+		SignPolicyId:  0,
 	}
 
 	type args struct {
@@ -67,7 +69,9 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 
 			genesis := idTypes.GenesisState{
 				Keyrings:   []idTypes.Keyring{*tt.args.keyring},
@@ -75,7 +79,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			}
 			identity.InitGenesis(ctx, *ik, genesis)
 
-			tk, ctx := keepertest.TreasuryKeeper(t)
+			tk := keepers.TreasuryKeeper
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*tk)
 
