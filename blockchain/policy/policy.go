@@ -37,7 +37,7 @@ func (p *AnyInGroupPolicy) AddressToParticipant(addr string) (string, error) {
 	return "", fmt.Errorf("address not a participant of this policy")
 }
 
-func (p *AnyInGroupPolicy) Verify(approvers ApproverSet, _ PolicyPayload) error {
+func (p *AnyInGroupPolicy) Verify(approvers ApproverSet, _ PolicyPayload, policyData map[string]string) error {
 	policyBz, err := proto.Marshal(p.policy)
 	if err != nil {
 		return err

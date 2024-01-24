@@ -60,7 +60,7 @@ func Test_NewPolicyAnyInGroup(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := NewAnyInGroupPolicy(tt.group)
-			err := p.Verify(tt.signaturesMap, EmptyPolicyPayload())
+			err := p.Verify(tt.signaturesMap, EmptyPolicyPayload(), EmptyPolicyData())
 			if tt.expectedErr {
 				require.Error(t, err)
 			} else {

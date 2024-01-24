@@ -57,11 +57,17 @@ func (p *BoolparserPolicy) AddressToParticipant(addr string) (string, error) {
 	return "", fmt.Errorf("address not a participant of this policy")
 }
 
-func (p *BoolparserPolicy) Verify(approvers policy.ApproverSet, _ policy.PolicyPayload) error {
+func (p *BoolparserPolicy) Verify(approvers policy.ApproverSet, _ policy.PolicyPayload, policyData map[string]string) error {
 	expression := p.Definition
 	for abbr := range approvers {
 		expression = strings.ReplaceAll(expression, abbr, "1")
 	}
+
+	for valueName, value := range policyData {
+		expression = strings.ReplaceAll(expression, valueName, value)
+	}
+
+	fmt.Println("Expression ", expression)
 
 	if boolparser.BoolSolve(expression) {
 		return nil
@@ -90,7 +96,7 @@ func (p *BlackbirdPolicy) AddressToParticipant(addr string) (string, error) {
 	return "", fmt.Errorf("address not a participant of this policy")
 }
 
-func (p *BlackbirdPolicy) Verify(approvers policy.ApproverSet, policyPayload policy.PolicyPayload) error {
+func (p *BlackbirdPolicy) Verify(approvers policy.ApproverSet, policyPayload policy.PolicyPayload, policyData map[string]string) error {
 	payload, err := policy.UnpackPayload[BlackbirdPolicyPayload](policyPayload)
 	if err != nil {
 		return err
