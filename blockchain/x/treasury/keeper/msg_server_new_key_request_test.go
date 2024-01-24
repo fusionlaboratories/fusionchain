@@ -22,7 +22,7 @@ import (
 	"github.com/qredo/fusionchain/x/treasury/types"
 )
 
-func Test_msgServer_AddKeyringParty(t *testing.T) {
+func Test_msgServer_NewKeyRequest(t *testing.T) {
 
 	var defaultKr = idTypes.Keyring{
 		Address:       "qredokeyring1ph63us46lyw56vrzgaq",
@@ -51,8 +51,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		want           *types.MsgNewKeyRequestResponse
-		wantKeyRequest *types.Key
+		wantKeyRequest *types.KeyRequest
 		wantErr        bool
 	}{
 		{
@@ -62,8 +61,29 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 				workspace: &defaultWs,
 				msg:       types.NewMsgNewKeyRequest("testCreator", "qredoworkspace14a2hpadpsy9h5m6us54", "qredokeyring1ph63us46lyw56vrzgaq", types.KeyType_KEY_TYPE_ECDSA_SECP256K1, 1000),
 			},
-			want: &types.MsgNewKeyRequestResponse{
-				Id: 1,
+			wantKeyRequest: &types.KeyRequest{
+				Id:            1,
+				Creator:       "testCreator",
+				WorkspaceAddr: "qredoworkspace14a2hpadpsy9h5m6us54",
+				KeyringAddr:   "qredokeyring1ph63us46lyw56vrzgaq",
+				KeyType:       types.KeyType_KEY_TYPE_ECDSA_SECP256K1,
+				Status:        types.KeyRequestStatus_KEY_REQUEST_STATUS_PENDING,
+			},
+		},
+		{
+			name: "request a new eddsa key",
+			args: args{
+				keyring:   &defaultKr,
+				workspace: &defaultWs,
+				msg:       types.NewMsgNewKeyRequest("testCreator", "qredoworkspace14a2hpadpsy9h5m6us54", "qredokeyring1ph63us46lyw56vrzgaq", types.KeyType_KEY_TYPE_EDDSA_ED25519, 1000),
+			},
+			wantKeyRequest: &types.KeyRequest{
+				Id:            1,
+				Creator:       "testCreator",
+				WorkspaceAddr: "qredoworkspace14a2hpadpsy9h5m6us54",
+				KeyringAddr:   "qredokeyring1ph63us46lyw56vrzgaq",
+				KeyType:       types.KeyType_KEY_TYPE_EDDSA_ED25519,
+				Status:        types.KeyRequestStatus_KEY_REQUEST_STATUS_PENDING,
 			},
 		},
 	}
@@ -88,20 +108,12 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 				t.Fatalf("NewKeyRequest() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
+			gotResponse, bool := tk.KeyRequestsRepo().Get(ctx, got.Id)
+			if !bool {
+				t.Fatalf("KeyRequestsRepo().Get failed, error = %v", bool)
+			}
+
 			if !tt.wantErr {
-				if !reflect.DeepEqual(got, tt.want) {
-					t.Fatalf("NewKeyRequest() got = %v, want %v", got, tt.want)
-				}
-
-				req := types.QueryKeyRequestByIdRequest{
-					Id: 1,
-				}
-
-				gotResponse, err := tk.KeyRequestById(goCtx, &req)
-				if err != nil {
-					t.Fatalf("NewKeyRequest error = %v, want %v", err, tt.wantErr)
-				}
-
 				if !reflect.DeepEqual(gotResponse, tt.wantKeyRequest) {
 					t.Fatalf("NewKeyRequest() got = %v, want %v", gotResponse, tt.wantKeyRequest)
 				}
