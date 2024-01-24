@@ -21,7 +21,15 @@ message Action {
   // BTL (blocks to live) is the block height up until this action can be
   // approved or rejected.
   uint64 btl = 7;
+  repeated KeyValue policy_data = 8;
 }
+
+// KeyValue is a simple key/value pair.
+message KeyValue {
+  string key = 1;
+  bytes value = 2;
+}
+
 // Current status of an action.
 enum ActionStatus {
   // Unspecified status.

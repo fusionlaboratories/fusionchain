@@ -16,7 +16,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/gogoproto/proto"
-	//	"github.com/qredo/fusionchain/x/policy/types"
 )
 
 type ApproverSet map[string]bool
@@ -41,16 +40,6 @@ func NewPolicyPayload(cdc codec.BinaryCodec, any *cdctypes.Any) PolicyPayload {
 		cdc: cdc,
 		any: any,
 	}
-}
-
-func NewPolicyData(action *types.Action) map[string]string {
-	data := make(map[string]string)
-	data["TXVALUE"] = "200"
-	return data
-}
-
-func EmptyPolicyData() map[string]string {
-	return make(map[string]string)
 }
 
 func EmptyPolicyPayload() PolicyPayload {
@@ -89,7 +78,7 @@ type Policy interface {
 
 	// Verify tries to verify the current policy. The returned error is nil if
 	// the policy is valid.
-	Verify(approvers ApproverSet, payload PolicyPayload, policyData map[string]string) error
+	Verify(approvers ApproverSet, payload PolicyPayload, policyData map[string][]byte) error
 }
 
 type PolicyMetadata interface {

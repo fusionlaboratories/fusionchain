@@ -29,7 +29,7 @@ func (k msgServer) AddWorkspaceOwner(goCtx context.Context, msg *types.MsgAddWor
 		return nil, fmt.Errorf("workspace not found")
 	}
 
-	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, ws.AdminPolicyId, msg.Btl)
+	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, ws.AdminPolicyId, msg.Btl, nil)
 	if err != nil {
 		return nil, err
 	}

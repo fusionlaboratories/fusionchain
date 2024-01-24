@@ -26,3 +26,11 @@ func (a *Action) AddApprover(approver string) error {
 	a.Approvers = append(a.Approvers, approver)
 	return nil
 }
+
+func (a *Action) GetPolicyDataMap() map[string][]byte {
+	m := make(map[string][]byte, len(a.PolicyData))
+	for _, d := range a.PolicyData {
+		m[d.Key] = d.Value
+	}
+	return m
+}

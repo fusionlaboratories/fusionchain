@@ -13,6 +13,8 @@ import (
 	"github.com/qredo/fusionchain/x/treasury/types"
 )
 
+var dataForSigningKey = "DataForSigning"
+
 func (k msgServer) NewSignTransactionRequest(goCtx context.Context, msg *types.MsgNewSignTransactionRequest) (*types.MsgNewSignTransactionRequestResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -30,7 +32,32 @@ func (k msgServer) NewSignTransactionRequest(goCtx context.Context, msg *types.M
 		return nil, fmt.Errorf("problem with keyring found:%v, IsActive:%v", found, keyring.IsActive)
 	}
 
-	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, ws.SignPolicyId, msg.Btl)
+	// use wallet to parse unsigned transaction
+	w, err := types.NewWallet(key, msg.WalletType)
+	if err != nil {
+		return nil, err
+	}
+
+	parser, ok := w.(types.TxParser)
+	if !ok {
+		return nil, fmt.Errorf("wallet does not implement TxParser")
+	}
+
+	var meta types.Metadata
+	if err := k.cdc.UnpackAny(msg.Metadata, &meta); err != nil {
+		return nil, fmt.Errorf("failed to unpack metadata: %w", err)
+	}
+	tx, err := parser.ParseTx(msg.UnsignedTransaction, meta)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse tx: %w", err)
+	}
+
+	ctx.Logger().Debug("parsed layer 1 tx", "wallet", w, "tx", tx)
+
+	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, ws.SignPolicyId, msg.Btl, map[string][]byte{
+		"TXVALUE":         []byte(tx.Amount.String()),
+		dataForSigningKey: tx.DataForSigning,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -65,36 +92,14 @@ func (k msgServer) NewSignTransactionRequestActionHandler(ctx sdk.Context, act *
 				return nil, fmt.Errorf("key not found")
 			}
 
-			// use wallet to parse unsigned transaction
-			w, err := types.NewWallet(key, msg.WalletType)
-			if err != nil {
-				return nil, err
-			}
-
-			parser, ok := w.(types.TxParser)
-			if !ok {
-				return nil, fmt.Errorf("wallet does not implement TxParser")
-			}
-
-			var meta types.Metadata
-			if err := k.cdc.UnpackAny(msg.Metadata, &meta); err != nil {
-				return nil, fmt.Errorf("failed to unpack metadata: %w", err)
-			}
-			tx, err := parser.ParseTx(msg.UnsignedTransaction, meta)
-			if err != nil {
-				return nil, fmt.Errorf("failed to parse tx: %w", err)
-			}
-
-			ctx.Logger().Debug("parsed layer 1 tx", "wallet", w, "tx", tx)
-
-			// TODO: apply policies to tx
+			dataForSigning := act.GetPolicyDataMap()[dataForSigningKey]
 
 			// generate signature request
 			signatureRequest := &types.SignRequest{
 				Creator:        msg.Creator,
 				KeyId:          msg.KeyId,
 				KeyType:        key.Type,
-				DataForSigning: tx.DataForSigning,
+				DataForSigning: dataForSigning,
 				Status:         types.SignRequestStatus_SIGN_REQUEST_STATUS_PENDING,
 			}
 			signRequestID := k.SignatureRequestsRepo().Append(ctx, signatureRequest)
