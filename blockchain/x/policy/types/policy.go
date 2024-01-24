@@ -96,7 +96,7 @@ func (p *BlackbirdPolicy) AddressToParticipant(addr string) (string, error) {
 	return "", fmt.Errorf("address not a participant of this policy")
 }
 
-func (p *BlackbirdPolicy) Verify(approvers policy.ApproverSet, policyPayload policy.PolicyPayload, policyData map[string][]byte) error {
+func (p *BlackbirdPolicy) Verify(approvers policy.ApproverSet, policyPayload policy.PolicyPayload, _ map[string][]byte) error {
 	payload, err := policy.UnpackPayload[BlackbirdPolicyPayload](policyPayload)
 	if err != nil {
 		return err
