@@ -11,7 +11,10 @@
 package keeper
 
 import (
+	"bytes"
+	"crypto/sha256"
 	"fmt"
+	"sort"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -143,11 +146,7 @@ func (k Keeper) AddAction(ctx sdk.Context, creator string, msg sdk.Msg, policyID
 		return nil, err
 	}
 
-	policyDataKv := make([]*types.KeyValue, 0, len(policyData))
-	for k, v := range policyData {
-		policyDataKv = append(policyDataKv, &types.KeyValue{Key: k, Value: v})
-	}
-
+	policyDataKv := mapToDeterministicSlice(policyData)
 	// create action object
 	act := types.Action{
 		Status:     types.ActionStatus_ACTION_STATUS_PENDING,
@@ -177,4 +176,19 @@ func (k Keeper) AddAction(ctx sdk.Context, creator string, msg sdk.Msg, policyID
 	// store and return generated action
 	k.AppendAction(ctx, &act)
 	return &act, nil
+}
+
+func mapToDeterministicSlice(policyData map[string][]byte) []*types.KeyValue {
+	policyDataKv := make([]*types.KeyValue, 0, len(policyData))
+	for k, v := range policyData { //Iterate over map (non-deterministic outcome)
+		policyDataKv = append(policyDataKv, &types.KeyValue{Key: k, Value: v})
+	}
+	// Hash the concatenation of the key-value pair and rank
+	// by digest.
+	sort.Slice(policyDataKv, func(i, j int) bool {
+		hashI := sha256.Sum256(append([]byte(policyDataKv[i].Key), policyDataKv[i].Value...))
+		hashJ := sha256.Sum256(append([]byte(policyDataKv[j].Key), policyDataKv[j].Value...))
+		return bytes.Compare(hashI[:], hashJ[:]) < 0
+	})
+	return policyDataKv
 }
