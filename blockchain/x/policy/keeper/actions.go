@@ -180,7 +180,7 @@ func (k Keeper) AddAction(ctx sdk.Context, creator string, msg sdk.Msg, policyID
 
 func mapToDeterministicSlice(policyData map[string][]byte) []*types.KeyValue {
 	policyDataKv := make([]*types.KeyValue, 0, len(policyData))
-	for k, v := range policyData { //Iterate over map (non-deterministic outcome)
+	for k, v := range policyData { // Iterate over map (non-deterministic outcome)
 		policyDataKv = append(policyDataKv, &types.KeyValue{Key: k, Value: v})
 	}
 	// Hash the concatenation of the key-value pair and rank
