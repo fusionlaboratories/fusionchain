@@ -11,10 +11,9 @@
 package keeper
 
 import (
-	"bytes"
-	"crypto/sha256"
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -183,12 +182,9 @@ func mapToDeterministicSlice(policyData map[string][]byte) []*types.KeyValue {
 	for k, v := range policyData { // Iterate over map (non-deterministic outcome)
 		policyDataKv = append(policyDataKv, &types.KeyValue{Key: k, Value: v})
 	}
-	// Hash the concatenation of the key-value pair and rank
-	// by digest.
+	// Rank slice by Key.
 	sort.Slice(policyDataKv, func(i, j int) bool {
-		hashI := sha256.Sum256(append([]byte(policyDataKv[i].Key), policyDataKv[i].Value...))
-		hashJ := sha256.Sum256(append([]byte(policyDataKv[j].Key), policyDataKv[j].Value...))
-		return bytes.Compare(hashI[:], hashJ[:]) < 0
+		return strings.Compare(policyDataKv[i].Key, policyDataKv[j].Key) < 0
 	})
 	return policyDataKv
 }
