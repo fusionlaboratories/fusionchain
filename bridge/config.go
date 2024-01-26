@@ -8,7 +8,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with the Fusion library. If not, see https://github.com/qredo/fusionchain/blob/main/LICENSE
-package service
+package bridge
 
 import (
 	"bytes"
@@ -23,7 +23,6 @@ const (
 
 var (
 	// Config vars
-	defaultPort = 8080
 
 	defaultFusionURL     = "localhost:9090"
 	defaultFusionChainID = "qredofusiontestnet_257-1"
@@ -47,38 +46,20 @@ var (
 
 // ServiceConfig represents the main application configuration struct.
 type ServiceConfig struct {
-	Port          int    `yaml:"port"`
-	Path          string `yaml:"path"`
-	ChainID       string `yaml:"chainid"`
-	FusionURL     string `yaml:"fusionurl"`
-	Password      string `yaml:"password"` // User supplied passphrase.
-	Mnemonic      string `yaml:"mnemonic"` // (Optional) The user can supply a mnemonic or one will be generated.
 	QredochainURL string `yaml:"qredochainurl"`
-	IDDocSeed     string `yaml:"iddocseed"`
 	LogLevel      string `yaml:"loglevel"`
 	LogFormat     string `yaml:"logformat"`
 	LogToFile     bool   `yaml:"logtofile"`
-	QueryInterval int64  `yaml:"queryinterval"`
 	RetrySleep    int64  `yaml:"retrySleep"`
-	MaxTries      int64  `yaml:"maxTries"`
 }
 
 var emptyConfig = ServiceConfig{}
 
 var defaultConfig = ServiceConfig{
-	Port:          defaultPort,
-	Path:          "", // If no path is supplied an in-memory key-value store will be used
 	LogLevel:      "info",
 	LogFormat:     "plain",
 	LogToFile:     false,
-	ChainID:       defaultFusionChainID,
-	FusionURL:     defaultFusionURL,
-	Mnemonic:      "", // will be generated if no supplied by the user
-	Password:      "", // must be user supplied
-	IDDocSeed:     "", // must be user supplied
 	QredochainURL: defaultQredochainURL,
-	QueryInterval: defaultQueryInterval,
-	MaxTries:      defaultMaxRetries,
 }
 
 func isEmpty(c ServiceConfig) bool {
@@ -96,10 +77,6 @@ func sanitizeConfig(config ServiceConfig) (cfg ServiceConfig, defaultUsed bool) 
 	}
 	cfg = config
 
-	if config.Port == 0 {
-		cfg.Port = defaultPort
-	}
-
 	if config.LogLevel == "" {
 		cfg.LogLevel = "info"
 	}
@@ -108,20 +85,5 @@ func sanitizeConfig(config ServiceConfig) (cfg ServiceConfig, defaultUsed bool) 
 		cfg.LogFormat = "plain"
 	}
 
-	if config.FusionURL == "" {
-		cfg.FusionURL = defaultFusionURL
-	}
-
-	if config.ChainID == "" {
-		cfg.ChainID = defaultFusionChainID
-	}
-
-	if config.QueryInterval == 0 {
-		cfg.QueryInterval = defaultQueryInterval
-	}
-
-	if config.MaxTries == 0 {
-		cfg.MaxTries = defaultMaxRetries
-	}
 	return
 }
