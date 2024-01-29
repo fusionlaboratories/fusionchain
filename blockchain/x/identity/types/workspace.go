@@ -57,8 +57,8 @@ func (w *Workspace) IsChild(address string) bool {
 	return false
 }
 
-func (w *Workspace) IsDifferent(AdminPolicyId uint64, SigPolicyId uint64) bool {
-	if w.AdminPolicyId == AdminPolicyId && w.SignPolicyId == SigPolicyId {
+func (w *Workspace) IsDifferent(adminPolicyID uint64, sigPolicyID uint64) bool {
+	if w.AdminPolicyId == adminPolicyID && w.SignPolicyId == sigPolicyID {
 		return false
 	}
 	return true
