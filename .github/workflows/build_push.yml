@@ -5,6 +5,9 @@ on:
   release:
     types:
       - published
+  push:
+    branches:
+      - '*'
 
 jobs:
   build-and-push:
