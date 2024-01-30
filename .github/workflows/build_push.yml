@@ -20,6 +20,10 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - name: 'TEST'
+        run: | 
+          echo $GITHUB_ENV
+          echo ${{ env.AWS_ROLE }}
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE }}
