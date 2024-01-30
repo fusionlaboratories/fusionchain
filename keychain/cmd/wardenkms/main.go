@@ -27,7 +27,7 @@ import (
 	service "github.com/warden-protocol/wardenprotocol/keychain/pkg/services/bip44kms"
 )
 
-const envPrefix = "FUSIONKMS"
+const envPrefix = "WARDENKMS"
 
 var (
 	configFilePath string
@@ -41,7 +41,7 @@ var (
 // OR RUN WITH ENVIRONMENT VARIABLES
 //
 // $ go build
-// $ export FUSIONKMS_PASSWORD=<your_password>
+// $ export WARDENKMS_PASSWORD=<your_password>
 // $ ./wardenkms
 //
 //
