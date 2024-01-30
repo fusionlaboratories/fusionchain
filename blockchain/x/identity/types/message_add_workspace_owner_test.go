@@ -75,7 +75,7 @@ func TestMsgAddWorkspaceOwner_Type(t *testing.T) {
 		msg  MsgAddWorkspaceOwner
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAddWorkspaceOwner{
 				Creator:       sample.AccAddress(),
 				WorkspaceAddr: "qredoworkspace14a2hpadpsy9h5m6us54",
@@ -168,7 +168,7 @@ func TestMsgAddWorkspaceOwner_ValidateBasic(t *testing.T) {
 		err  error
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAddWorkspaceOwner{
 				Creator:       sample.AccAddress(),
 				WorkspaceAddr: "qredoworkspace14a2hpadpsy9h5m6us54",

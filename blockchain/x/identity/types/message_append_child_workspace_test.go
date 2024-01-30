@@ -75,7 +75,7 @@ func TestMsgAppendChildWorkspace_Type(t *testing.T) {
 		msg  MsgAppendChildWorkspace
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAppendChildWorkspace{
 				Creator:             sample.AccAddress(),
 				ParentWorkspaceAddr: "qredoworkspace14a2hpadpsy9h5m6us54",
@@ -122,7 +122,7 @@ func TestMsgAppendChildWorkspace_GetSigners(t *testing.T) {
 			if err != nil {
 				assert.Panics(t, func() { tt.msg.GetSigners() })
 			} else {
-				msg := NewMsgAddWorkspaceOwner(tt.msg.Creator, tt.msg.ParentWorkspaceAddr, tt.msg.ChildWorkspaceAddr, tt.msg.Btl)
+				msg := NewMsgAppendChildWorkspace(tt.msg.Creator, tt.msg.ParentWorkspaceAddr, tt.msg.ChildWorkspaceAddr, tt.msg.Btl)
 				got := msg.GetSigners()
 
 				assert.Equal(t, []sdk.AccAddress{acc}, got)
@@ -168,13 +168,13 @@ func TestMsgAppendChildWorkspace_ValidateBasic(t *testing.T) {
 		err  error
 	}{
 		{
-			name: "invalid address",
+			name: "FAIL: invalid address",
 			msg: MsgAppendChildWorkspace{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAppendChildWorkspace{
 				Creator: sample.AccAddress(),
 			},

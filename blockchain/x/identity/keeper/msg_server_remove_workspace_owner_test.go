@@ -43,7 +43,7 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "remove workspace owner",
+			name: "PASS: remove workspace owner",
 			args: args{
 				workspace: &defaultWsWithOwners,
 				msg:       types.NewMsgRemoveWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner2"),
@@ -56,10 +56,9 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 				AdminPolicyId: 0,
 				SignPolicyId:  0,
 			},
-			wantErr: false,
 		},
 		{
-			name: "remove workspace creator",
+			name: "PASS: remove workspace creator",
 			args: args{
 				workspace: &defaultWsWithOwners,
 				msg:       types.NewMsgRemoveWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner"),
@@ -72,10 +71,9 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 				AdminPolicyId: 0,
 				SignPolicyId:  0,
 			},
-			wantErr: false,
 		},
 		{
-			name: "remove single owner",
+			name: "PASS: remove single owner",
 			args: args{
 				workspace: &types.Workspace{
 					Address:       "qredoworkspace14a2hpadpsy9h5m6us54",
@@ -93,10 +91,9 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 				AdminPolicyId: 0,
 				SignPolicyId:  0,
 			},
-			wantErr: false,
 		},
 		{
-			name: "workspace is nil or not found",
+			name: "FAIL: workspace is nil or not found",
 			args: args{
 				workspace: &defaultWsWithOwners,
 				msg:       types.NewMsgRemoveWorkspaceOwner("testOwner", "notAWorkspace", "testOwner2"),
@@ -105,7 +102,7 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "removed owner is no owner",
+			name: "FAIL: removed owner is no owner",
 			args: args{
 				workspace: &defaultWsWithOwners,
 				msg:       types.NewMsgRemoveWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "noOwner"),
@@ -114,7 +111,7 @@ func Test_msgServer_RemoveWorkspaceOwner(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "creator is no admin owner",
+			name: "FAIL: creator is no admin owner",
 			args: args{
 				workspace: &defaultWsWithOwners,
 				msg:       types.NewMsgRemoveWorkspaceOwner("noOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner"),

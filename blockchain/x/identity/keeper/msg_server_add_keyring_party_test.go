@@ -59,7 +59,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 		wantErr2    bool
 	}{
 		{
-			name: "add a party to a keyring",
+			name: "PASS: add a party to a keyring",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
@@ -69,7 +69,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			wantKeyring: &wantKr,
 		},
 		{
-			name: "keyring not found",
+			name: "FAIL: keyring not found",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgAddKeyringParty("testCreator", "invalidKeyring", "testParty"),
@@ -78,7 +78,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "party is already in the keyring",
+			name: "FAIL: party is already in the keyring",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgAddKeyringParty("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
@@ -89,7 +89,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			wantErr2:    true,
 		},
 		{
-			name: "creator no keyring admin",
+			name: "FAIL: creator no keyring admin",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgAddKeyringParty("notKeyringAdmin", "qredokeyring1ph63us46lyw56vrzgaq", "testParty"),
@@ -98,7 +98,7 @@ func Test_msgServer_AddKeyringParty(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "inactive keyring",
+			name: "FAIL: inactive keyring",
 			args: args{
 				keyring: &types.Keyring{
 					Address:       "qredokeyring1ph63us46lyw56vrzgaq",

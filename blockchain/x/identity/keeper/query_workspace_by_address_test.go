@@ -34,7 +34,7 @@ func TestKeeper_WorkspaceByAddress(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "happy path",
+			name: "PASS: happy path",
 			args: args{
 				req: &types.QueryWorkspaceByAddressRequest{
 					Address: "qredoworkspace14a2hpadpsy9h5m6us54",
@@ -51,10 +51,9 @@ func TestKeeper_WorkspaceByAddress(t *testing.T) {
 					SignPolicyId:    0,
 				},
 			},
-			wantErr: false,
 		},
 		{
-			name: "req is nil",
+			name: "FAIL: req is nil",
 			args: args{
 				req:          nil,
 				msgWorkspace: types.NewMsgNewWorkspace("testOwner", 0, 0),
@@ -63,7 +62,7 @@ func TestKeeper_WorkspaceByAddress(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "wrong workspace address",
+			name: "FAIL: wrong workspace address",
 			args: args{
 				req: &types.QueryWorkspaceByAddressRequest{
 					Address: "wrongAddress",

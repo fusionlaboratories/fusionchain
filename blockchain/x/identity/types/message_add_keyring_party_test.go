@@ -52,7 +52,7 @@ func TestMsgAddKeyringParty_Route(t *testing.T) {
 		msg  MsgAddKeyringParty
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAddKeyringParty{
 				Creator:     sample.AccAddress(),
 				KeyringAddr: "qredokeyring1ph63us46lyw56vrzgaq",
@@ -73,7 +73,7 @@ func TestMsgAddKeyringParty_Type(t *testing.T) {
 		msg  MsgAddKeyringParty
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgAddKeyringParty{
 				Creator:     sample.AccAddress(),
 				KeyringAddr: "qredokeyring1ph63us46lyw56vrzgaq",

@@ -11,8 +11,6 @@
 package types
 
 import (
-	"fmt"
-
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -63,7 +61,7 @@ func (msg *MsgNewWorkspace) ValidateBasic() error {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid owner address (%s)", err)
 		}
 		if owner == msg.Creator {
-			return errorsmod.Wrapf(fmt.Errorf("owner duplicated"), "creator is already an owner")
+			return ErrDuplicateOwners
 		}
 	}
 	return nil

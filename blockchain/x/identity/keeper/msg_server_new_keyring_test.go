@@ -32,7 +32,7 @@ func Test_msgServer_NewKeyring(t *testing.T) {
 		wantErr     bool
 	}{
 		{
-			name: "create a keyring",
+			name: "PASS: create a keyring",
 			args: args{
 				msg: types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
 			},
@@ -46,7 +46,6 @@ func Test_msgServer_NewKeyring(t *testing.T) {
 				Fees:        &types.KeyringFees{KeyReq: 0, SigReq: 0},
 				IsActive:    true,
 			},
-			wantErr: false,
 		},
 	}
 	for _, tt := range tests {

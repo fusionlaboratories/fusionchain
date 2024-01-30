@@ -53,7 +53,7 @@ func Test_msgServer_UpdateWorkspace(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "add workspace owner",
+			name: "PASS: add workspace owner",
 			args: args{
 				workspace: &defaultWs,
 				policy:    policyTypes.NewMsgNewPolicy("testOwner", "newPolicy", policyPayload),
@@ -70,7 +70,7 @@ func Test_msgServer_UpdateWorkspace(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "workspace is nil or not found",
+			name: "FAIL: workspace is nil or not found",
 			args: args{
 				workspace: &defaultWs,
 				policy:    policyTypes.NewMsgNewPolicy("testOwner", "newPolicy", policyPayload),
@@ -80,7 +80,7 @@ func Test_msgServer_UpdateWorkspace(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "no new values",
+			name: "FAIL: no new values",
 			args: args{
 				workspace: &defaultWs,
 				policy:    policyTypes.NewMsgNewPolicy("testOwner", "newPolicy", policyPayload),
@@ -90,7 +90,7 @@ func Test_msgServer_UpdateWorkspace(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "creator is no admin owner",
+			name: "FAIL: creator is no admin owner",
 			args: args{
 				workspace: &defaultWs,
 				policy:    policyTypes.NewMsgNewPolicy("testOwner", "newPolicy", policyPayload),

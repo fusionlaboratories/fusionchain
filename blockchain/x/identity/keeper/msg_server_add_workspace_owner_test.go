@@ -42,7 +42,7 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "add workspace owner",
+			name: "PASS: add workspace owner",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner2", 100),
@@ -58,7 +58,7 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "workspace is nil or not found",
+			name: "FAIL: workspace is nil or not found",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "notAWorkspace", "testOwner2", 100),
@@ -67,7 +67,7 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "owner is already owner",
+			name: "FAIL: owner is already owner",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner", 100),
@@ -76,7 +76,7 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "creator is no admin owner",
+			name: "FAIL: creator is no admin owner",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgAddWorkspaceOwner("noOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner", 100),

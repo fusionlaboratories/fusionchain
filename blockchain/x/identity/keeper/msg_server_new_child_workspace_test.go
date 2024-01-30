@@ -34,7 +34,7 @@ func Test_msgServer_NewChildWorkspace(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "create new child workspace",
+			name: "PASS: create new child workspace",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgNewChildWorkspace("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", 100),
@@ -48,10 +48,9 @@ func Test_msgServer_NewChildWorkspace(t *testing.T) {
 				AdminPolicyId:   0,
 				SignPolicyId:    0,
 			},
-			wantErr: false,
 		},
 		{
-			name: "workspace is nil or not found",
+			name: "FAIL: workspace is nil or not found",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgNewChildWorkspace("testOwner", "notAWorkspace", 100),
@@ -60,7 +59,7 @@ func Test_msgServer_NewChildWorkspace(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "creator is not an owner",
+			name: "FAIL: creator is not an owner",
 			args: args{
 				workspace: &defaultWs,
 				msg:       types.NewMsgNewChildWorkspace("notAnOwner", "qredoworkspace14a2hpadpsy9h5m6us54", 100),
