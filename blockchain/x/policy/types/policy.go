@@ -67,8 +67,6 @@ func (p *BoolparserPolicy) Verify(approvers policy.ApproverSet, _ policy.PolicyP
 		expression = strings.ReplaceAll(expression, valueName, string(value))
 	}
 
-	fmt.Println("Expression ", expression)
-
 	if boolparser.BoolSolve(expression) {
 		return nil
 	}
