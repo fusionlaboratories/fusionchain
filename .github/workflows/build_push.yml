@@ -15,6 +15,9 @@ jobs:
     if: |
        startsWith(github.ref_name, 'faucet@') ||
        startsWith(github.ref_name, 'web@')
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
