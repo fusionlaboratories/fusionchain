@@ -17,8 +17,9 @@ jobs:
        startsWith(github.ref_name, 'web@')
     steps:
       - uses: actions/checkout@v4
-      - uses: aws-actions/configure-aws-credentials@v1
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-to-assume: ${{ env.AWS_ROLE }}
           aws-region: eu-west-1
       - uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
