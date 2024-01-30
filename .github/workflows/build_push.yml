@@ -29,6 +29,9 @@ jobs:
       - name: Set tags
         id: vars
         run: |
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "BUILD_DATE=$(git show -s --format=%ci ${{ env.COMMIT_SHA }})" >> $GITHUB_ENV
           echo "TAG=$(echo ${GITHUB_REF_NAME} | cut -d'@' -f2)" >> $GITHUB_ENV
           echo "REF=$(echo ${GITHUB_REF_NAME} | cut -d'@' -f1)" >> $GITHUB_ENV
           echo "ECR_REPO=${{ vars.ECR_REGISTRY }}.dkr.ecr.eu-west-1.amazonaws.com/wardenprotocol/production/$(echo ${{ github.ref_name }} | awk -F'@' '{print $1}')" >> $GITHUB_ENV
@@ -42,7 +45,8 @@ jobs:
           file: ./docker/Dockerfile-${{ env.REF }}
           build-args: |
              SERVICE=${{ env.REF }}
-             GIT_SHA=${{ github.sha }}
+             GIT_SHA=${{ env.COMMIT_SHA }}
+             BUILD_DATE=${{ env.BUILD_DATE }}
           push: true
           tags: |
             ${{ env.ECR_REPO }}:${{ github.sha }}
