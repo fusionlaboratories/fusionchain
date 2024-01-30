@@ -26,7 +26,7 @@ jobs:
           echo ${{ env.AWS_ROLE }}
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.AWS_ROLE }}
+          role-to-assume: ${{ secret.AWS_ROLE }}
           aws-region: eu-west-1
       - uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
