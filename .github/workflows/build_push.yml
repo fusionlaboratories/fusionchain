@@ -45,7 +45,7 @@ jobs:
              GIT_SHA=${{ github.sha }}
           push: true
           tags: |
-            ${{ env.ECR_REPO }}:${{ env.SHORT_SHA }}
+            ${{ env.ECR_REPO }}:${{ env.GIT_SHA }}
             ${{ env.ECR_REPO }}:${{ env.TAG }}
             ${{ env.ECR_REPO }}:latest
           cache-from: type=gha
