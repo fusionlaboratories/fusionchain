@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: devops-prod
+    runs-on: ubuntu-latest
     if: |
        startsWith(github.ref_name, 'faucet@') ||
        startsWith(github.ref_name, 'web@')
