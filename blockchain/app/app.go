@@ -157,9 +157,10 @@ import (
 	policymodule "github.com/qredo/fusionchain/x/policy"
 	policymodulekeeper "github.com/qredo/fusionchain/x/policy/keeper"
 	policymoduletypes "github.com/qredo/fusionchain/x/policy/types"
-	qassetsmodule "github.com/qredo/fusionchain/x/qassets"
-	qassetsmodulekeeper "github.com/qredo/fusionchain/x/qassets/keeper"
-	qassetsmoduletypes "github.com/qredo/fusionchain/x/qassets/types"
+
+	// qassetsmodule "github.com/qredo/fusionchain/x/qassets"
+	// qassetsmodulekeeper "github.com/qredo/fusionchain/x/qassets/keeper"
+	// qassetsmoduletypes "github.com/qredo/fusionchain/x/qassets/types"
 	"github.com/qredo/fusionchain/x/revenue/v1"
 	revenuekeeper "github.com/qredo/fusionchain/x/revenue/v1/keeper"
 	revenuetypes "github.com/qredo/fusionchain/x/revenue/v1/types"
@@ -256,7 +257,7 @@ var (
 		policymodule.AppModuleBasic{},
 		identitymodule.AppModuleBasic{},
 		treasurymodule.AppModuleBasic{},
-		qassetsmodule.AppModuleBasic{},
+		// qassetsmodule.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -272,7 +273,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
-		qassetsmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner}, // qAsset minting/burning
+		// qassetsmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner}, // qAsset minting/burning
 	}
 
 	// module accounts that are allowed to receive tokens
@@ -344,7 +345,7 @@ type FusionApp struct {
 	IdentityKeeper  identitymodulekeeper.Keeper
 	TreasuryKeeper  treasurymodulekeeper.Keeper
 	PolicyKeeper    policymodulekeeper.Keeper
-	QAssetsKeeper   qassetsmodulekeeper.Keeper
+	// QAssetsKeeper   qassetsmodulekeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -434,7 +435,7 @@ func NewFusionApp(
 		policymoduletypes.StoreKey,
 		identitymoduletypes.StoreKey,
 		treasurymoduletypes.StoreKey,
-		qassetsmoduletypes.StoreKey,
+		// qassetsmoduletypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -643,7 +644,7 @@ func NewFusionApp(
 		&app.IBCKeeper.PortKeeper,
 		scopedWasmKeeper,
 		app.PolicyKeeper,
-		app.QAssetsKeeper,
+		// app.QAssetsKeeper,
 		app.TransferKeeper,
 		app.MsgServiceRouter(),
 		app.GRPCQueryRouter(),
@@ -683,16 +684,16 @@ func NewFusionApp(
 	)
 	treasuryModule := treasurymodule.NewAppModule(appCodec, app.TreasuryKeeper, app.AccountKeeper, app.BankKeeper)
 
-	app.QAssetsKeeper = *qassetsmodulekeeper.NewKeeper(
-		appCodec,
-		keys[qassetsmoduletypes.StoreKey],
-		keys[qassetsmoduletypes.MemStoreKey],
-		app.GetSubspace(qassetsmoduletypes.ModuleName),
-		app.BankKeeper,
-		app.TreasuryKeeper,
-		app.IdentityKeeper,
-	)
-	qassetsModule := qassetsmodule.NewAppModule(appCodec, app.QAssetsKeeper, app.AccountKeeper, app.BankKeeper)
+	// app.QAssetsKeeper = *qassetsmodulekeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[qassetsmoduletypes.StoreKey],
+	// 	keys[qassetsmoduletypes.MemStoreKey],
+	// 	app.GetSubspace(qassetsmoduletypes.ModuleName),
+	// 	app.BankKeeper,
+	// 	app.TreasuryKeeper,
+	// 	app.IdentityKeeper,
+	// )
+	// qassetsModule := qassetsmodule.NewAppModule(appCodec, app.QAssetsKeeper, app.AccountKeeper, app.BankKeeper)
 
 	// register the proposal types
 	govRouter := govv1beta1.NewRouter()
@@ -883,7 +884,7 @@ func NewFusionApp(
 		identityModule,
 		treasuryModule,
 		policyModule,
-		qassetsModule,
+		// qassetsModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -924,7 +925,7 @@ func NewFusionApp(
 		policymoduletypes.ModuleName,
 		identitymoduletypes.ModuleName,
 		treasurymoduletypes.ModuleName,
-		qassetsmoduletypes.ModuleName,
+		// qassetsmoduletypes.ModuleName,
 	)
 
 	// NOTE: fee market module must go last in order to retrieve the block gas used.
@@ -960,7 +961,7 @@ func NewFusionApp(
 		policymoduletypes.ModuleName,
 		identitymoduletypes.ModuleName,
 		treasurymoduletypes.ModuleName,
-		qassetsmoduletypes.ModuleName,
+		// qassetsmoduletypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -1003,7 +1004,7 @@ func NewFusionApp(
 		policymoduletypes.ModuleName,
 		identitymoduletypes.ModuleName,
 		treasurymoduletypes.ModuleName,
-		qassetsmoduletypes.ModuleName,
+		// qassetsmoduletypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
 	)
