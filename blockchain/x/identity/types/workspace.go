@@ -48,6 +48,22 @@ func (w *Workspace) AddChild(child *Workspace) {
 	w.ChildWorkspaces = append(w.ChildWorkspaces, child.Address)
 }
 
+func (w *Workspace) IsChild(address string) bool {
+	for _, child := range w.ChildWorkspaces {
+		if child == address {
+			return true
+		}
+	}
+	return false
+}
+
+func (w *Workspace) IsDifferent(adminPolicyID uint64, sigPolicyID uint64) bool {
+	if w.AdminPolicyId == adminPolicyID && w.SignPolicyId == sigPolicyID {
+		return false
+	}
+	return true
+}
+
 func (w *Workspace) PolicyAddOwner() policy.Policy {
 	return w.AnyOwnerPolicy()
 }

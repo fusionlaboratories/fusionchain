@@ -48,7 +48,7 @@ func TestMsgNewWorkspace_Route(t *testing.T) {
 		msg  MsgNewWorkspace
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgNewWorkspace{
 				Creator: sample.AccAddress(),
 			},
@@ -67,7 +67,7 @@ func TestMsgNewWorkspace_Type(t *testing.T) {
 		msg  MsgNewWorkspace
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgNewWorkspace{
 				Creator: sample.AccAddress(),
 			},
@@ -114,6 +114,35 @@ func TestMsgNewWorkspace_GetSigners(t *testing.T) {
 	}
 }
 
+func TestMsgNewWorkspace_GetSignBytes(t *testing.T) {
+
+	tests := []struct {
+		name string
+		msg  *MsgNewWorkspace
+	}{
+		{
+			name: "PASS: happy path",
+			msg: &MsgNewWorkspace{
+				Creator:       "qredo1nexzt4fcc84mgnqwjdhxg6veu97eyy9rgzkczs",
+				AdminPolicyId: 0,
+				SignPolicyId:  0,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			msg := NewMsgNewWorkspace(tt.msg.Creator, tt.msg.AdminPolicyId, tt.msg.SignPolicyId)
+			got := msg.GetSignBytes()
+
+			bz := ModuleCdc.MustMarshalJSON(msg)
+			sortedBz := sdk.MustSortJSON(bz)
+
+			require.Equal(t, sortedBz, got, "GetSignBytes() result doesn't match sorted JSON bytes")
+
+		})
+	}
+}
+
 func TestMsgNewWorkspace_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
@@ -121,16 +150,45 @@ func TestMsgNewWorkspace_ValidateBasic(t *testing.T) {
 		err  error
 	}{
 		{
-			name: "invalid address",
+			name: "FAIL: invalid address",
 			msg: MsgNewWorkspace{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgNewWorkspace{
 				Creator: sample.AccAddress(),
 			},
+		},
+		{
+			name: "PASS: additional owners",
+			msg: MsgNewWorkspace{
+				Creator: sample.AccAddress(),
+				AdditionalOwners: []string{
+					sample.AccAddress(),
+				},
+			},
+		},
+		{
+			name: "FAIL: invalid additional owners",
+			msg: MsgNewWorkspace{
+				Creator: sample.AccAddress(),
+				AdditionalOwners: []string{
+					"invalid_Owner",
+				},
+			},
+			err: sdkerrors.ErrInvalidAddress,
+		},
+		{
+			name: "FAIL: duplicated additional owners",
+			msg: MsgNewWorkspace{
+				Creator: "qredo1n7x7nv2urvdtc36tvhvc4dg6wfnnwh3cmt9j9w",
+				AdditionalOwners: []string{
+					"qredo1n7x7nv2urvdtc36tvhvc4dg6wfnnwh3cmt9j9w",
+				},
+			},
+			err: ErrDuplicateOwners,
 		},
 	}
 	for _, tt := range tests {

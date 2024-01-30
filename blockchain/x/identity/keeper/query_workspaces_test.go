@@ -33,7 +33,7 @@ func TestKeeper_Workspaces(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "create 100 workspaces",
+			name: "PASS: create 100 workspaces",
 			args: args{
 				req: &types.QueryWorkspacesRequest{
 					Pagination: nil,
@@ -41,8 +41,7 @@ func TestKeeper_Workspaces(t *testing.T) {
 				msgWorkspace:   types.NewMsgNewWorkspace("testOwner", 0, 0),
 				workspaceCount: 100,
 			},
-			want:    100,
-			wantErr: false,
+			want: 100,
 		},
 	}
 

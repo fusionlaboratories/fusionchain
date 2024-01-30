@@ -147,7 +147,6 @@ func TestKeyring_IsAdmin(t *testing.T) {
 			args: args{
 				address: "testAdmin",
 			},
-			wantErr: false,
 		},
 		{
 			name: "Tx creator is no admin",

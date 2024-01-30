@@ -33,7 +33,7 @@ func TestKeeper_Keyrings(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "create 100 keyrings",
+			name: "PASS: create 100 keyrings",
 			args: args{
 				req: &types.QueryKeyringsRequest{
 					Pagination: nil,
@@ -41,8 +41,7 @@ func TestKeeper_Keyrings(t *testing.T) {
 				msgKeyring:   types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
 				keyringCount: 100,
 			},
-			want:    100,
-			wantErr: false,
+			want: 100,
 		},
 	}
 

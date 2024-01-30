@@ -55,5 +55,8 @@ func (msg *MsgUpdateKeyring) ValidateBasic() error {
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	if msg.Description == "" {
+		return ErrEmptyDesc
+	}
 	return nil
 }

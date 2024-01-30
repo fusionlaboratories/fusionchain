@@ -55,5 +55,9 @@ func (msg *MsgAddWorkspaceOwner) ValidateBasic() error {
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+	_, err = sdk.AccAddressFromBech32(msg.NewOwner)
+	if err != nil {
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid new owner address (%s)", err)
+	}
 	return nil
 }

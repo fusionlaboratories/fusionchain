@@ -97,7 +97,6 @@ func TryExecuteAction[ReqT sdk.Msg, ResT any](
 	if err := pol.Verify(signersSet, policy.NewPolicyPayload(cdc, payload), act.GetPolicyDataMap()); err == nil {
 		act.Status = types.ActionStatus_ACTION_STATUS_COMPLETED
 		k.SetAction(ctx, act)
-		// error here: error layer=debugger could not resolve parametric type of handlerFn
 		return handlerFn(ctx, msg)
 	}
 
