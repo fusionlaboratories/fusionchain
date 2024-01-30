@@ -31,5 +31,5 @@ LICENSE for details. The repository is [REUSE](https://reuse.software/)
 compliant. The copyright owner are listed in the `.reuse/dep5` file or in the
 respective copyright notice.
 
-## Acknowledgment:
+## Acknowledgment
 We extend our gratitude to the developers and contributors of [Cosmos](https://github.com/cosmos/cosmos-sdk), [Evmos](https://github.com/evmos/evmos), and [Ethereum](https://github.com/ethereum/go-ethereum). Their groundbreaking work in blockchain technology has paved the way for the development and innovation in this project. The principles, standards, and advancements introduced by these communities have greatly influenced our work and contributed to the development of this software.
