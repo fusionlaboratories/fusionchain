@@ -161,9 +161,9 @@ import (
 	// qassetsmodule "github.com/qredo/fusionchain/x/qassets"
 	// qassetsmodulekeeper "github.com/qredo/fusionchain/x/qassets/keeper"
 	// qassetsmoduletypes "github.com/qredo/fusionchain/x/qassets/types"
-	"github.com/qredo/fusionchain/x/revenue/v1"
-	revenuekeeper "github.com/qredo/fusionchain/x/revenue/v1/keeper"
-	revenuetypes "github.com/qredo/fusionchain/x/revenue/v1/types"
+	// "github.com/qredo/fusionchain/x/revenue/v1"
+	// revenuekeeper "github.com/qredo/fusionchain/x/revenue/v1/keeper"
+	// revenuetypes "github.com/qredo/fusionchain/x/revenue/v1/types"
 	treasurymodule "github.com/qredo/fusionchain/x/treasury"
 	treasurymodulekeeper "github.com/qredo/fusionchain/x/treasury/keeper"
 	treasurymoduletypes "github.com/qredo/fusionchain/x/treasury/types"
@@ -252,7 +252,7 @@ var (
 		// Fusion modules
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
-		revenue.AppModuleBasic{},
+		// revenue.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 		policymodule.AppModuleBasic{},
 		identitymodule.AppModuleBasic{},
@@ -340,11 +340,11 @@ type FusionApp struct {
 	// Fusion keepers
 	EvmKeeper       *evmkeeper.Keeper
 	FeeMarketKeeper feemarketkeeper.Keeper
-	RevenueKeeper   revenuekeeper.Keeper
-	WasmKeeper      qredowasmkeeper.Keeper
-	IdentityKeeper  identitymodulekeeper.Keeper
-	TreasuryKeeper  treasurymodulekeeper.Keeper
-	PolicyKeeper    policymodulekeeper.Keeper
+	// RevenueKeeper   revenuekeeper.Keeper
+	WasmKeeper     qredowasmkeeper.Keeper
+	IdentityKeeper identitymodulekeeper.Keeper
+	TreasuryKeeper treasurymodulekeeper.Keeper
+	PolicyKeeper   policymodulekeeper.Keeper
 	// QAssetsKeeper   qassetsmodulekeeper.Keeper
 
 	// the module manager
@@ -430,7 +430,7 @@ func NewFusionApp(
 		// Fusion keys
 		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
-		revenuetypes.StoreKey,
+		// revenuetypes.StoreKey,
 		wasmtypes.StoreKey,
 		policymoduletypes.StoreKey,
 		identitymoduletypes.StoreKey,
@@ -720,20 +720,20 @@ func NewFusionApp(
 		),
 	)
 
-	app.RevenueKeeper = revenuekeeper.NewKeeper(
-		keys[revenuetypes.StoreKey],
-		appCodec,
-		authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.BankKeeper,
-		app.DistrKeeper,
-		app.AccountKeeper,
-		app.EvmKeeper,
-		authtypes.FeeCollectorName,
-	)
+	// app.RevenueKeeper = revenuekeeper.NewKeeper(
+	// 	keys[revenuetypes.StoreKey],
+	// 	appCodec,
+	// 	authtypes.NewModuleAddress(govtypes.ModuleName),
+	// 	app.BankKeeper,
+	// 	app.DistrKeeper,
+	// 	app.AccountKeeper,
+	// 	app.EvmKeeper,
+	// 	authtypes.FeeCollectorName,
+	// )
 
 	app.EvmKeeper = app.EvmKeeper.SetHooks(
 		evmkeeper.NewMultiEvmHooks(
-			app.RevenueKeeper.Hooks(),
+		// app.RevenueKeeper.Hooks(),
 		),
 	)
 
@@ -879,7 +879,7 @@ func NewFusionApp(
 		// Fusion app modules
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, evmSs),
 		feemarket.NewAppModule(app.FeeMarketKeeper, feeMarketSs),
-		revenue.NewAppModule(app.RevenueKeeper, app.AccountKeeper, app.GetSubspace(revenuetypes.ModuleName)),
+		// revenue.NewAppModule(app.RevenueKeeper, app.AccountKeeper, app.GetSubspace(revenuetypes.ModuleName)),
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
 		identityModule,
 		treasuryModule,
@@ -913,7 +913,7 @@ func NewFusionApp(
 		genutiltypes.ModuleName,
 		authz.ModuleName,
 		feegrant.ModuleName,
-		revenuetypes.ModuleName,
+		// revenuetypes.ModuleName,
 		nft.ModuleName,
 		group.ModuleName,
 		paramstypes.ModuleName,
@@ -948,7 +948,7 @@ func NewFusionApp(
 		evidencetypes.ModuleName,
 		authz.ModuleName,
 		feegrant.ModuleName,
-		revenuetypes.ModuleName,
+		// revenuetypes.ModuleName,
 		nft.ModuleName,
 		group.ModuleName,
 		paramstypes.ModuleName,
@@ -993,7 +993,7 @@ func NewFusionApp(
 		ibctransfertypes.ModuleName,
 		authz.ModuleName,
 		feegrant.ModuleName,
-		revenuetypes.ModuleName,
+		// revenuetypes.ModuleName,
 		nft.ModuleName,
 		group.ModuleName,
 		paramstypes.ModuleName,
@@ -1292,7 +1292,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// Fusion subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable()) //nolint: staticcheck
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
-	paramsKeeper.Subspace(revenuetypes.ModuleName)
+	// paramsKeeper.Subspace(revenuetypes.ModuleName)
 	paramsKeeper.Subspace(wasmtypes.ModuleName)
 	return paramsKeeper
 }
