@@ -17,7 +17,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_FloatingPint(t *testing.T) {
+func Test_FloatingPoint(t *testing.T) {
 	assert.True(t, BoolSolve("10 < 11"), "Bool operation fails")
 	assert.False(t, BoolSolve("11 < 10"), "Bool operation fails")
 	assert.False(t, BoolSolve("10 < 10"), "Bool operation fails")
