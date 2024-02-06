@@ -145,7 +145,7 @@ func (k Keeper) AddAction(ctx sdk.Context, creator string, msg sdk.Msg, policyID
 	}
 
 	policyDataKv := mapToDeterministicSlice(policyData)
-    for k, v := range policyData {
+	for k, v := range policyData {
 		policyDataKv = append(policyDataKv, &types.KeyValue{Key: k, Value: v})
 	}
 
