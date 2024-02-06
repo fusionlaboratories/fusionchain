@@ -17,6 +17,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_FloatingPint(t *testing.T) {
+	assert.True(t, BoolSolve("10 < 11"), "Bool operation fails")
+	assert.False(t, BoolSolve("11 < 10"), "Bool operation fails")
+	assert.False(t, BoolSolve("10 < 10"), "Bool operation fails")
+	assert.True(t, BoolSolve("10 < 10.5"), "Bool operation fails")
+	assert.True(t, BoolSolve("10.6 > 10.5"), "Bool operation fails")
+}
+
+func Test_ValueExample(t *testing.T) {
+	assert.True(t, BoolSolve("1 + 1 + 1 > 1) & (1000.5 > 1000.2)"))
+	assert.True(t, BoolSolve("1 + 1 + 1 > 1) & (1000.2 < 1000.3)"))
+	assert.False(t, BoolSolve("1 + 1 + 1 > 1) & (1000.5 < 1000.2)"))
+	assert.False(t, BoolSolve("1 + 1 + 1 > 1) & (1000.2 > 1000.3)"))
+}
+
 func Test_Misc(t *testing.T) {
 	assert.True(t, BoolSolve("1 * 1"), "Bool operation fails")
 	assert.False(t, BoolSolve("1 * 0"), "Bool operation fails")
