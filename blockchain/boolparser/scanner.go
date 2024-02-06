@@ -149,7 +149,7 @@ func (s *Scanner) ScanWhitespace() Token {
 }
 
 func IsOperator(r rune) bool {
-	return r == '+' || r == '-' || r == '*' || r == '/' || r == '^' || r == '&' || r == '|' || r == '>' || r == '<' || r == '≥' || r == '≤'
+	return r == '+' || r == '-' || r == '*' || r == '/' || r == '^' || r == '&' || r == '|' || r == '>' || r == '<' || r == '≥' || r == '≤' || r == '≡' || r == '≢'
 }
 
 func IsUnary(r rune) bool {

@@ -35,6 +35,18 @@ func Test_LessGreater_or_Equal(t *testing.T) {
 	assert.True(t, BoolSolve("10 ≥ 9"), "Bool operation fails")
 }
 
+func Test_Equivalence(t *testing.T) {
+	assert.True(t, BoolSolve("10 == 10"), "Bool operation fails")
+	assert.False(t, BoolSolve("10 == 9"), "Bool operation fails")
+	assert.True(t, BoolSolve("10 ≡ 10"), "Bool operation fails")
+	assert.False(t, BoolSolve("10 ≡ 9"), "Bool operation fails")
+
+	assert.False(t, BoolSolve("10 != 10"), "Bool operation fails")
+	assert.True(t, BoolSolve("10 != 9"), "Bool operation fails")
+	assert.False(t, BoolSolve("10 ≢ 10"), "Bool operation fails")
+	assert.True(t, BoolSolve("10 ≢ 9"), "Bool operation fails")
+}
+
 func Test_FloatingPoint(t *testing.T) {
 	assert.True(t, BoolSolve("10 < 11"), "Bool operation fails")
 	assert.False(t, BoolSolve("11 < 10"), "Bool operation fails")

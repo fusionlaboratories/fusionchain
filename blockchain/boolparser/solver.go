@@ -31,6 +31,8 @@ var oprData = map[string]struct {
 	"|": {2, false, func(x, y float64) float64 { return b2f(f2b(x) || f2b(y)) }},
 	"≥": {2, false, func(x, y float64) float64 { return b2f(x >= y) }},
 	"≤": {2, false, func(x, y float64) float64 { return b2f(x <= y) }},
+	"≡": {2, false, func(x, y float64) float64 { return b2f(x == y) }},
+	"≢": {2, false, func(x, y float64) float64 { return b2f(x != y) }},
 	// "!": {2, false, func(x, y float64) float64 { return b2f(!f2b(x)) }},
 }
 
@@ -92,6 +94,9 @@ func Solve(s string) float64 {
 func MultiCharOperatorsToSingle(s string) string {
 	s = strings.ReplaceAll(s, ">=", "≥")
 	s = strings.ReplaceAll(s, "<=", "≤")
+	s = strings.ReplaceAll(s, "==", "≡")
+	s = strings.ReplaceAll(s, "!=", "≢")
+
 	return s
 }
 
