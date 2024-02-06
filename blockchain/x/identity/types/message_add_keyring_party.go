@@ -56,7 +56,7 @@ func (msg *MsgAddKeyringParty) ValidateBasic() error {
 	}
 	_, err = sdk.AccAddressFromBech32(msg.Party)
 	if err != nil {
-		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid party address (%s)", err)
 	}
 	return nil
 }

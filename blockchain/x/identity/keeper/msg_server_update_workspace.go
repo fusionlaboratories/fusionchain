@@ -29,6 +29,14 @@ func (k msgServer) UpdateWorkspace(goCtx context.Context, msg *types.MsgUpdateWo
 		return nil, fmt.Errorf("workspace not found")
 	}
 
+	if !ws.IsOwner(msg.Creator) {
+		return nil, fmt.Errorf("creator is not an owner of the workspace")
+	}
+
+	if !ws.IsDifferent(msg.AdminPolicyId, msg.SignPolicyId) {
+		return nil, fmt.Errorf("no updates to the workspace")
+	}
+
 	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, ws.AdminPolicyId, msg.Btl, nil)
 	if err != nil {
 		return nil, err

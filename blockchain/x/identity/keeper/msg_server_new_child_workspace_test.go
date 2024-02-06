@@ -21,67 +21,50 @@ import (
 	"github.com/qredo/fusionchain/x/identity/types"
 )
 
-var defaultWs = types.Workspace{
-	Address:       "qredoworkspace14a2hpadpsy9h5m6us54",
-	Creator:       "testOwner",
-	Owners:        []string{"testOwner"},
-	AdminPolicyId: 0,
-	SignPolicyId:  0,
-}
-
-func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
+func Test_msgServer_NewChildWorkspace(t *testing.T) {
 	type args struct {
 		workspace *types.Workspace
-		msg       *types.MsgAddWorkspaceOwner
+		msg       *types.MsgNewChildWorkspace
 	}
 	tests := []struct {
 		name          string
 		args          args
-		want          *types.MsgAddWorkspaceOwnerResponse
+		want          *types.MsgNewChildWorkspaceResponse
 		wantWorkspace *types.Workspace
 		wantErr       bool
 	}{
 		{
-			name: "PASS: add workspace owner",
+			name: "PASS: create new child workspace",
 			args: args{
 				workspace: &defaultWs,
-				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner2", 100),
+				msg:       types.NewMsgNewChildWorkspace("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", 100),
 			},
-			want: &types.MsgAddWorkspaceOwnerResponse{},
+			want: &types.MsgNewChildWorkspaceResponse{},
 			wantWorkspace: &types.Workspace{
-				Address:       "qredoworkspace14a2hpadpsy9h5m6us54",
-				Creator:       "testOwner",
-				Owners:        []string{"testOwner", "testOwner2"},
-				AdminPolicyId: 0,
-				SignPolicyId:  0,
+				Address:         "qredoworkspace14a2hpadpsy9h5m6us54",
+				Creator:         "testOwner",
+				Owners:          []string{"testOwner"},
+				ChildWorkspaces: []string{"qredoworkspace10j06zdk5gyl6vrss5d5"},
+				AdminPolicyId:   0,
+				SignPolicyId:    0,
 			},
-			wantErr: false,
 		},
 		{
 			name: "FAIL: workspace is nil or not found",
 			args: args{
 				workspace: &defaultWs,
-				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "notAWorkspace", "testOwner2", 100),
+				msg:       types.NewMsgNewChildWorkspace("testOwner", "notAWorkspace", 100),
 			},
-			want:    &types.MsgAddWorkspaceOwnerResponse{},
+			want:    &types.MsgNewChildWorkspaceResponse{},
 			wantErr: true,
 		},
 		{
-			name: "FAIL: owner is already owner",
+			name: "FAIL: creator is not an owner",
 			args: args{
 				workspace: &defaultWs,
-				msg:       types.NewMsgAddWorkspaceOwner("testOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner", 100),
+				msg:       types.NewMsgNewChildWorkspace("notAnOwner", "qredoworkspace14a2hpadpsy9h5m6us54", 100),
 			},
-			want:    &types.MsgAddWorkspaceOwnerResponse{},
-			wantErr: true,
-		},
-		{
-			name: "FAIL: creator is no admin owner",
-			args: args{
-				workspace: &defaultWs,
-				msg:       types.NewMsgAddWorkspaceOwner("noOwner", "qredoworkspace14a2hpadpsy9h5m6us54", "testOwner", 100),
-			},
-			want:    &types.MsgAddWorkspaceOwnerResponse{},
+			want:    &types.MsgNewChildWorkspaceResponse{},
 			wantErr: true,
 		},
 	}
@@ -98,20 +81,20 @@ func Test_msgServer_AddWorkspaceOwner(t *testing.T) {
 			}
 			identity.InitGenesis(ctx, *ik, genesis)
 
-			got, err := msgSer.AddWorkspaceOwner(goCtx, tt.args.msg)
+			got, err := msgSer.NewChildWorkspace(goCtx, tt.args.msg)
 			if (err != nil) != tt.wantErr {
-				t.Fatalf("AddWorkspaceOwner() error = %v, wantErr %v", err, tt.wantErr)
+				t.Fatalf("NewChildWorkspace() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
 			if !tt.wantErr {
 				if !reflect.DeepEqual(got, tt.want) {
-					t.Errorf("AddWorkspaceOwner() got = %v, want %v", got, tt.want)
+					t.Errorf("NewChildWorkspace() got = %v, want %v", got, tt.want)
 				}
 
 				gotWorkspace := ik.GetWorkspace(ctx, tt.args.workspace.Address)
 
 				if !reflect.DeepEqual(gotWorkspace, tt.wantWorkspace) {
-					t.Errorf("AddWorkspaceOwner() got = %v, want %v", gotWorkspace, tt.wantWorkspace)
+					t.Errorf("NewChildWorkspace() got = %v, want %v", gotWorkspace, tt.wantWorkspace)
 				}
 			}
 		})

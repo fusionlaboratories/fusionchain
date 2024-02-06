@@ -12,7 +12,6 @@ package keeper
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -27,7 +26,11 @@ func (k msgServer) NewChildWorkspace(goCtx context.Context, msg *types.MsgNewChi
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	parent := k.GetWorkspace(ctx, msg.ParentWorkspaceAddr)
 	if parent == nil {
-		return nil, errors.New("invalid parent workspace address")
+		return nil, fmt.Errorf("invalid parent workspace address")
+	}
+
+	if !parent.IsOwner(msg.Creator) {
+		return nil, fmt.Errorf("creator is not an owner of the workspace")
 	}
 
 	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, parent.AdminPolicyId, msg.Btl, nil)

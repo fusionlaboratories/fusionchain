@@ -30,7 +30,7 @@ func NewDefaultMessageHandler(
 	channelKeeper types.ChannelKeeper,
 	capabilityKeeper types.CapabilityKeeper,
 	bankKeeper types.Burner,
-	qassetsKeeper qassets.Keeper,
+	// qassetsKeeper qassets.Keeper,
 	unpacker codectypes.AnyUnpacker,
 	portSource types.ICS20TransferPortSource,
 	customEncoders ...*keeper.MessageEncoders,
@@ -43,8 +43,8 @@ func NewDefaultMessageHandler(
 		keeper.NewSDKMessageHandler(router, encoders),
 		keeper.NewIBCRawPacketHandler(ics4Wrapper, channelKeeper, capabilityKeeper),
 		keeper.NewBurnCoinMessageHandler(bankKeeper),
-		NewQAssetMintMessageHandler(qassetsKeeper),
-		NewQAssetBurnMessageHandler(qassetsKeeper),
+		// NewQAssetMintMessageHandler(qassetsKeeper),
+		// NewQAssetBurnMessageHandler(qassetsKeeper),
 	)
 }
 

@@ -32,31 +32,31 @@ func TestKeeper_WorkspacesByOwner(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "find by owner",
+			name: "PASS: find by owner",
 			args: args{
 				req: &types.QueryWorkspacesByOwnerRequest{
 					Owner: "testOwner",
 				},
 				msgWorkspace: types.NewMsgNewWorkspace("testOwner", 0, 0),
 			},
-			want:    1,
-			wantErr: false,
+			want: 1,
 		},
 		{
-			name: "wrong owner",
+			name: "PASS: wrong owner",
 			args: args{
 				req: &types.QueryWorkspacesByOwnerRequest{
 					Owner: "wrongOwner",
 				},
 				msgWorkspace: types.NewMsgNewWorkspace("testOwner", 0, 0),
 			},
-			want:    0,
-			wantErr: false,
+			want: 0,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*ik)
 			_, err := msgSer.NewWorkspace(goCtx, tt.args.msgWorkspace)

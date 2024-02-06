@@ -52,7 +52,7 @@ func TestMsgNewKeyring_Route(t *testing.T) {
 		msg  MsgNewKeyring
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgNewKeyring{
 				Creator:       sample.AccAddress(),
 				Description:   "Test Keyring",
@@ -74,7 +74,7 @@ func TestMsgNewKeyring_Type(t *testing.T) {
 		msg  MsgNewKeyring
 	}{
 		{
-			name: "valid address",
+			name: "PASS: valid address",
 			msg: MsgNewKeyring{
 				Creator:       sample.AccAddress(),
 				Description:   "Test Keyring",
@@ -86,6 +86,36 @@ func TestMsgNewKeyring_Type(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, TypeMsgNewKeyring, tt.msg.Type(), "Type()")
+		})
+	}
+}
+
+func TestMsgNewKeyring_GetSignBytes(t *testing.T) {
+
+	tests := []struct {
+		name string
+		msg  *MsgNewKeyring
+	}{
+		{
+			name: "PASS: happy path",
+			msg: &MsgNewKeyring{
+				Creator:       "qredo1nexzt4fcc84mgnqwjdhxg6veu97eyy9rgzkczs",
+				Description:   "testKeyring",
+				AdminPolicyId: 0,
+				Fees:          &KeyringFees{KeyReq: 0, SigReq: 0},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			msg := NewMsgNewKeyring(tt.msg.Creator, tt.msg.Description, tt.msg.AdminPolicyId, tt.msg.Fees.KeyReq, tt.msg.Fees.SigReq)
+			got := msg.GetSignBytes()
+
+			bz := ModuleCdc.MustMarshalJSON(msg)
+			sortedBz := sdk.MustSortJSON(bz)
+
+			require.Equal(t, sortedBz, got, "GetSignBytes() result doesn't match sorted JSON bytes")
+
 		})
 	}
 }

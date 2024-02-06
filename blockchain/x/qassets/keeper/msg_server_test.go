@@ -21,6 +21,8 @@ import (
 )
 
 func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {
-	k, ctx := keepertest.QassetsKeeper(t)
-	return keeper.NewMsgServerImpl(*k), sdk.WrapSDKContext(ctx)
+	keepers := keepertest.NewTest(t)
+	qk := keepers.QassetsKeeper
+	ctx := keepers.Ctx
+	return keeper.NewMsgServerImpl(*qk), sdk.WrapSDKContext(ctx)
 }

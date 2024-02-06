@@ -51,7 +51,7 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 		wantErr     bool
 	}{
 		{
-			name: "change keyring description",
+			name: "PASS: change keyring description",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgUpdateKeyring("testCreator", "qredokeyring1ph63us46lyw56vrzgaq", "newDescription", true),
@@ -66,7 +66,7 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 			},
 		},
 		{
-			name: "keyring not found",
+			name: "FAIL: keyring not found",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgUpdateKeyring("testCreator", "invalidKeyring", "newDescription", true),
@@ -75,7 +75,7 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "creator no keyring admin",
+			name: "FAIL: creator no keyring admin",
 			args: args{
 				keyring: &defaultKr,
 				msg:     types.NewMsgUpdateKeyring("noAdmin", "qredokeyring1ph63us46lyw56vrzgaq", "newDescription", true),
@@ -84,7 +84,7 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "change keyring status to false",
+			name: "PASS: change keyring status to false",
 			args: args{
 				keyring: &types.Keyring{
 					Address:     "qredokeyring1ph63us46lyw56vrzgaq",
@@ -105,7 +105,7 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 			},
 		},
 		{
-			name: "change keyring status to true",
+			name: "PASS: change keyring status to true",
 			args: args{
 				keyring: &types.Keyring{
 					Address:     "qredokeyring1ph63us46lyw56vrzgaq",
@@ -122,7 +122,9 @@ func Test_msgServer_UpdateKeyring(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*ik)
 

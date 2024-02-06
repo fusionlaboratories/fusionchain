@@ -3,16 +3,18 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "github.com/qredo/fusionchain/testutil/keeper"
+	keepertest "github.com/qredo/fusionchain/testutil/keeper"
 	"github.com/qredo/fusionchain/x/treasury/types"
 	"github.com/stretchr/testify/require"
 )
 
 func TestGetParams(t *testing.T) {
-	k, ctx := testkeeper.TreasuryKeeper(t)
+	keepers := keepertest.NewTest(t)
+	tk := keepers.TreasuryKeeper
+	ctx := keepers.Ctx
 	params := types.DefaultParams()
 
-	k.SetParams(ctx, params)
+	tk.SetParams(ctx, params)
 
-	require.EqualValues(t, params, k.GetParams(ctx))
+	require.EqualValues(t, params, tk.GetParams(ctx))
 }

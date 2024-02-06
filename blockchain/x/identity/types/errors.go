@@ -18,5 +18,6 @@ import (
 
 // x/identity module sentinel errors
 var (
-	ErrEmptyDesc = sdkerrors.Register(ModuleName, 1100, "description is empty")
+	ErrEmptyDesc       = sdkerrors.Register(ModuleName, 1100, "description is empty")
+	ErrDuplicateOwners = sdkerrors.Register(ModuleName, 1101, "duplicate owners")
 )

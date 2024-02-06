@@ -79,12 +79,12 @@ func (k msgServer) NewSignatureRequestActionHandler(ctx sdk.Context, act *bbirdt
 				return nil, fmt.Errorf("keyring not found")
 			}
 
-			if keyring.Fees != nil {
+			if keyring.Fees != nil && keyring.Fees.SigReq > 0 {
 				err := k.bankKeeper.SendCoins(
 					ctx,
 					sdk.AccAddress(msg.Creator),
 					sdk.AccAddress(key.KeyringAddr),
-					sdk.NewCoins(sdk.NewCoin("nQRDO", sdk.NewIntFromUint64(keyring.Fees.KeyReq))),
+					sdk.NewCoins(sdk.NewCoin("nQRDO", sdk.NewIntFromUint64(keyring.Fees.SigReq))),
 				)
 				if err != nil {
 					return nil, err

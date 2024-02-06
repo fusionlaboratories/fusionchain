@@ -42,7 +42,7 @@ func TestKeeper_KeyringByAddress(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "get a keyring by address",
+			name: "PASS: get a keyring by address",
 			args: args{
 				keyring: &defaultKr,
 				req: &types.QueryKeyringByAddressRequest{
@@ -58,10 +58,9 @@ func TestKeeper_KeyringByAddress(t *testing.T) {
 				Fees:        &types.KeyringFees{KeyReq: 0, SigReq: 0},
 				IsActive:    true,
 			}},
-			wantErr: false,
 		},
 		{
-			name: "keyring by address not found",
+			name: "FAIL: keyring by address not found",
 			args: args{
 				keyring: &defaultKr,
 				req: &types.QueryKeyringByAddressRequest{
@@ -72,7 +71,7 @@ func TestKeeper_KeyringByAddress(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "invalid request",
+			name: "FAIL: invalid request",
 			args: args{
 				keyring: &defaultKr,
 				req:     nil,
@@ -83,7 +82,9 @@ func TestKeeper_KeyringByAddress(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 
 			genesis := types.GenesisState{

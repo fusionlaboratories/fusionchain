@@ -32,7 +32,7 @@ func Test_msgServer_NewWorkspace(t *testing.T) {
 		wantErr     bool
 	}{
 		{
-			name: "create a workspace",
+			name: "PASS: create a workspace",
 			args: args{
 				msg: types.NewMsgNewWorkspace("testOwner", 0, 0),
 			},
@@ -47,10 +47,9 @@ func Test_msgServer_NewWorkspace(t *testing.T) {
 				AdminPolicyId:   0,
 				SignPolicyId:    0,
 			},
-			wantErr: false,
 		},
 		{
-			name: "create a workspace with additional owners",
+			name: "FAIL: create a workspace with additional owners",
 			args: args{
 				msg: types.NewMsgNewWorkspace("testOwner", 0, 0, "owner1", "owner2"),
 			},
@@ -65,12 +64,13 @@ func Test_msgServer_NewWorkspace(t *testing.T) {
 				AdminPolicyId:   0,
 				SignPolicyId:    0,
 			},
-			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			msgSer := keeper.NewMsgServerImpl(*ik)
 			got, err := msgSer.NewWorkspace(goCtx, tt.args.msg)

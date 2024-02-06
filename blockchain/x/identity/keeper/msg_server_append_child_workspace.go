@@ -30,6 +30,14 @@ func (k msgServer) AppendChildWorkspace(goCtx context.Context, msg *types.MsgApp
 		return nil, fmt.Errorf("workspace not found")
 	}
 
+	if !parent.IsOwner(msg.Creator) {
+		return nil, fmt.Errorf("creator is not an owner of the workspace")
+	}
+
+	if parent.IsChild(msg.ChildWorkspaceAddr) {
+		return nil, fmt.Errorf("new child is already a child workspace")
+	}
+
 	act, err := k.policyKeeper.AddAction(ctx, msg.Creator, msg, parent.AdminPolicyId, msg.Btl, nil)
 	if err != nil {
 		return nil, err

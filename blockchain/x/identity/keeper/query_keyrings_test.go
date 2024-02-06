@@ -33,7 +33,7 @@ func TestKeeper_Keyrings(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "create 100 keyrings",
+			name: "PASS: create 100 keyrings",
 			args: args{
 				req: &types.QueryKeyringsRequest{
 					Pagination: nil,
@@ -41,14 +41,15 @@ func TestKeeper_Keyrings(t *testing.T) {
 				msgKeyring:   types.NewMsgNewKeyring("testCreator", "testDescription", 0, 0, 0),
 				keyringCount: 100,
 			},
-			want:    100,
-			wantErr: false,
+			want: 100,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ik, ctx := keepertest.IdentityKeeper(t)
+			keepers := keepertest.NewTest(t)
+			ik := keepers.IdentityKeeper
+			ctx := keepers.Ctx
 			goCtx := sdk.WrapSDKContext(ctx)
 			for i := 0; i < tt.args.keyringCount; i++ {
 				msgSer := keeper.NewMsgServerImpl(*ik)
