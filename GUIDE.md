@@ -31,7 +31,7 @@ alias fchain="fusiond --node tcp://localhost:26657 --home ~/.fusiond/ --from shu
 
 Full list of CLI commands:
 
-- https://www.notion.so/qredo/Fusion-Functional-Requirements-0f822bdc7d6a4aba81f6161935408b35?pvs=4#f1d09276cf55411385c2856a07d4f142
+- https://www.notion.so/Fusion-Functional-Requirements-8054b432d7634610b866da9765d84d26
 - This does not include default Cosmos SDK commands
 
 ### Basic Walkthrough
