@@ -30,11 +30,14 @@ func (k Keeper) SignatureRequests(goCtx context.Context, req *types.QuerySignatu
 		}
 
 		if key.KeyringAddr != req.KeyringAddr {
-			return nil, nil
+			return nil, fmt.Errorf("keyring is empty or not found")
 		}
 
+		fmt.Println("value.Status: ", value.Status)
+		fmt.Println("req.Status: ", req.Status)
+
 		if req.Status != types.SignRequestStatus_SIGN_REQUEST_STATUS_UNSPECIFIED && value.Status != req.Status {
-			return nil, nil
+			return nil, fmt.Errorf("request status is not correct")
 		}
 
 		return value, nil
