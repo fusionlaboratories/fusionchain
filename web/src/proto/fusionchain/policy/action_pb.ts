@@ -107,6 +107,11 @@ export class Action extends Message<Action> {
    */
   btl = protoInt64.zero;
 
+  /**
+   * @generated from field: repeated fusionchain.policy.KeyValue policy_data = 8;
+   */
+  policyData: KeyValue[] = [];
+
   constructor(data?: PartialMessage<Action>) {
     super();
     proto3.util.initPartial(data, this);
@@ -122,6 +127,7 @@ export class Action extends Message<Action> {
     { no: 5, name: "msg", kind: "message", T: Any },
     { no: 6, name: "creator", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 7, name: "btl", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 8, name: "policy_data", kind: "message", T: KeyValue, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Action {
@@ -138,6 +144,51 @@ export class Action extends Message<Action> {
 
   static equals(a: Action | PlainMessage<Action> | undefined, b: Action | PlainMessage<Action> | undefined): boolean {
     return proto3.util.equals(Action, a, b);
+  }
+}
+
+/**
+ * KeyValue is a simple key/value pair.
+ *
+ * @generated from message fusionchain.policy.KeyValue
+ */
+export class KeyValue extends Message<KeyValue> {
+  /**
+   * @generated from field: string key = 1;
+   */
+  key = "";
+
+  /**
+   * @generated from field: bytes value = 2;
+   */
+  value = new Uint8Array(0);
+
+  constructor(data?: PartialMessage<KeyValue>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "fusionchain.policy.KeyValue";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "value", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeyValue {
+    return new KeyValue().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): KeyValue {
+    return new KeyValue().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): KeyValue {
+    return new KeyValue().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: KeyValue | PlainMessage<KeyValue> | undefined, b: KeyValue | PlainMessage<KeyValue> | undefined): boolean {
+    return proto3.util.equals(KeyValue, a, b);
   }
 }
 

@@ -27,6 +27,10 @@ service Msg {
   // be considered trusted by the keyring.
   rpc AddKeyringParty(MsgAddKeyringParty) returns (MsgAddKeyringPartyResponse);
 
+  // Remove an existing party from a keyring.
+  rpc RemoveKeyringParty(MsgRemoveKeyringParty)
+      returns (MsgRemoveKeyringPartyResponse);
+
   // TODO: document AppendChildWorkspace
   rpc AppendChildWorkspace(MsgAppendChildWorkspace)
       returns (MsgAppendChildWorkspaceResponse);
@@ -86,6 +90,14 @@ message MsgAddKeyringParty {
 }
 
 message MsgAddKeyringPartyResponse {}
+
+message MsgRemoveKeyringParty {
+  string creator = 1;
+  string keyring_addr = 2;
+  string party = 3;
+}
+
+message MsgRemoveKeyringPartyResponse {}
 
 message MsgAppendChildWorkspace {
   string creator = 1;

@@ -55,6 +55,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAddKeyringParty int = 100
 
+	opWeightMsgRemoveKeyringParty = "op_weight_msg_remove_keyring_party"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgRemoveKeyringParty int = 100
+
 	opWeightMsgAppendChildWorkspace = "op_weight_msg_append_child_workspace"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAppendChildWorkspace int = 100
@@ -153,6 +157,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgAddKeyringParty,
 		identitysimulation.SimulateMsgAddKeyringParty(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgRemoveKeyringParty int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgRemoveKeyringParty, &weightMsgRemoveKeyringParty, nil,
+		func(_ *rand.Rand) {
+			weightMsgRemoveKeyringParty = defaultWeightMsgRemoveKeyringParty
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgRemoveKeyringParty,
+		identitysimulation.SimulateMsgRemoveKeyringParty(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgAppendChildWorkspace int

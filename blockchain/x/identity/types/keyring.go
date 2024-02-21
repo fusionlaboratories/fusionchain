@@ -35,6 +35,15 @@ func (k *Keyring) AddParty(address string) {
 	k.Parties = append(k.Parties, address)
 }
 
+func (k *Keyring) RemoveParty(address string) {
+	for i, party := range k.Parties {
+		if party == address {
+			k.Parties = append(k.Parties[:i], k.Parties[i+1:]...)
+			return
+		}
+	}
+}
+
 func (k *Keyring) SetStatus(status bool) {
 	k.IsActive = status
 }
