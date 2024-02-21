@@ -23,6 +23,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgRemoveWorkspaceOwner{}, "identity/RemoveWorkspaceOwner", nil)
 	cdc.RegisterConcrete(&MsgNewKeyring{}, "identity/NewKeyring", nil)
 	cdc.RegisterConcrete(&MsgAddKeyringParty{}, "identity/AddKeyringParty", nil)
+	cdc.RegisterConcrete(&MsgRemoveKeyringParty{}, "identity/RemoveKeyringParty", nil)
 	cdc.RegisterConcrete(&MsgAppendChildWorkspace{}, "identity/MsgAppendChildWorkspace", nil)
 	cdc.RegisterConcrete(&MsgNewChildWorkspace{}, "identity/MsgNewChildWorkspace", nil)
 	cdc.RegisterConcrete(&MsgUpdateWorkspace{}, "identity/MsgUpdateWorkspace", nil)
@@ -44,6 +45,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgAddKeyringParty{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgRemoveKeyringParty{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgAppendChildWorkspace{},

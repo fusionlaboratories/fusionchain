@@ -7,6 +7,7 @@ import Address from "../components/address";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@/components/ui/breadcrumb";
 import { keyringByAddress } from "@/client/identity";
 import AddKeyringPartyForm from "@/components/add_keyring_party_form";
+import RemoveKeyringPartyForm from "@/components/remove_keyring_party_form";
 import CardRow from "@/components/card_row";
 
 function Keyring() {
@@ -109,11 +110,14 @@ function Keyring() {
           </div>
         </CardContent>
         <CardFooter>
-          <AddKeyringPartyForm addr={addr} keyringAddr={keyringAddr} />
+          <div className="grid w-full items-center">
+            <AddKeyringPartyForm addr={addr} keyringAddr={keyringAddr}/>
+            <RemoveKeyringPartyForm addr={addr} keyringAddr={keyringAddr}/>
+          </div>
         </CardFooter>
       </Card>
     </div>
-  );
+);
 }
 
 export async function loader({ params }: { params: Params<string> }) {

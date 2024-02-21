@@ -444,6 +444,86 @@ export class MsgAddKeyringPartyResponse extends Message<MsgAddKeyringPartyRespon
 }
 
 /**
+ * @generated from message fusionchain.identity.MsgRemoveKeyringParty
+ */
+export class MsgRemoveKeyringParty extends Message<MsgRemoveKeyringParty> {
+  /**
+   * @generated from field: string creator = 1;
+   */
+  creator = "";
+
+  /**
+   * @generated from field: string keyring_addr = 2;
+   */
+  keyringAddr = "";
+
+  /**
+   * @generated from field: string party = 3;
+   */
+  party = "";
+
+  constructor(data?: PartialMessage<MsgRemoveKeyringParty>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "fusionchain.identity.MsgRemoveKeyringParty";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "creator", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "keyring_addr", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "party", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MsgRemoveKeyringParty {
+    return new MsgRemoveKeyringParty().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): MsgRemoveKeyringParty {
+    return new MsgRemoveKeyringParty().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): MsgRemoveKeyringParty {
+    return new MsgRemoveKeyringParty().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: MsgRemoveKeyringParty | PlainMessage<MsgRemoveKeyringParty> | undefined, b: MsgRemoveKeyringParty | PlainMessage<MsgRemoveKeyringParty> | undefined): boolean {
+    return proto3.util.equals(MsgRemoveKeyringParty, a, b);
+  }
+}
+
+/**
+ * @generated from message fusionchain.identity.MsgRemoveKeyringPartyResponse
+ */
+export class MsgRemoveKeyringPartyResponse extends Message<MsgRemoveKeyringPartyResponse> {
+  constructor(data?: PartialMessage<MsgRemoveKeyringPartyResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "fusionchain.identity.MsgRemoveKeyringPartyResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): MsgRemoveKeyringPartyResponse {
+    return new MsgRemoveKeyringPartyResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): MsgRemoveKeyringPartyResponse {
+    return new MsgRemoveKeyringPartyResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): MsgRemoveKeyringPartyResponse {
+    return new MsgRemoveKeyringPartyResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: MsgRemoveKeyringPartyResponse | PlainMessage<MsgRemoveKeyringPartyResponse> | undefined, b: MsgRemoveKeyringPartyResponse | PlainMessage<MsgRemoveKeyringPartyResponse> | undefined): boolean {
+    return proto3.util.equals(MsgRemoveKeyringPartyResponse, a, b);
+  }
+}
+
+/**
  * @generated from message fusionchain.identity.MsgAppendChildWorkspace
  */
 export class MsgAppendChildWorkspace extends Message<MsgAppendChildWorkspace> {
