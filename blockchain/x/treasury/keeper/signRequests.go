@@ -28,8 +28,8 @@ func (k Keeper) SetSignRequestCount(ctx sdk.Context, c uint64) {
 
 func (k Keeper) GetSignRequest(ctx sdk.Context, id uint64) *types.SignRequest {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SignRequestKey))
-	signReqId := strconv.FormatUint(id, 10)
-	bz := store.Get([]byte(signReqId))
+	signReqID := strconv.FormatUint(id, 10)
+	bz := store.Get([]byte(signReqID))
 	if bz == nil {
 		return nil
 	}
@@ -41,6 +41,6 @@ func (k Keeper) GetSignRequest(ctx sdk.Context, id uint64) *types.SignRequest {
 func (k Keeper) SetSignRequest(ctx sdk.Context, signRequest *types.SignRequest) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SignRequestKey))
 	newValue := k.cdc.MustMarshal(signRequest)
-	signReqId := strconv.FormatUint(signRequest.Id, 10)
-	store.Set([]byte(signReqId), newValue)
+	signReqID := strconv.FormatUint(signRequest.Id, 10)
+	store.Set([]byte(signReqID), newValue)
 }

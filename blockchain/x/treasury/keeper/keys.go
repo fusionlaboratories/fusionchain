@@ -19,8 +19,8 @@ func (k Keeper) appendKey(ctx sdk.Context, key *types.Key, keyRequest *types.Key
 
 func (k Keeper) GetKey(ctx sdk.Context, id uint64) (*types.Key, bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.KeyKey))
-	keyId := strconv.FormatUint(id, 10)
-	b := store.Get([]byte(keyId))
+	keyID := strconv.FormatUint(id, 10)
+	b := store.Get([]byte(keyID))
 	if b == nil {
 		return nil, false
 	}
@@ -51,6 +51,6 @@ func (k Keeper) GetKeyCount(ctx sdk.Context) uint64 {
 func (k Keeper) SetKey(ctx sdk.Context, key *types.Key) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.KeyKey))
 	newValue := k.cdc.MustMarshal(key)
-	keyId := strconv.FormatUint(key.Id, 10)
-	store.Set([]byte(keyId), newValue)
+	keyID := strconv.FormatUint(key.Id, 10)
+	store.Set([]byte(keyID), newValue)
 }
