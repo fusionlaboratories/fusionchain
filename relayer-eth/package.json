@@ -2,6 +2,6 @@
   "name": "relayer-eth",
   "description": "description here",
   "version": "1.0.0",
-  "author": "Qredo",
-  "license": "Apache2"
+  "author": "Fusion Laboratories LTD",
+  "license": "BUSL-1.1"
 }

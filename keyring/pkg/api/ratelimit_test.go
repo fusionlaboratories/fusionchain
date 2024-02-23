@@ -1,29 +1,5 @@
-// Copyright 2023 Qredo Ltd.
-// This file is part of the Fusion library.
-//
-// The Fusion library is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with the Fusion library. If not, see https://github.com/qredo/fusionchain/blob/main/LICENSE
-package api
-
-import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-	"net/http/httptest"
-	"testing"
-	"time"
-
-	"github.com/qredo/fusionchain/keyring/pkg/common"
-	"github.com/qredo/fusionchain/keyring/pkg/database"
-	"github.com/qredo/fusionchain/keyring/pkg/logger"
-)
-
-func Test_RateLimit(t *testing.T) {
+// Copyright (c) Fusion Laboratories LTD
+// SPDX-License-Identifier: BUSL-1.1
 	n := "test"
 	log, err := logger.NewLogger("fatal", "plain", false, n)
 	if err != nil {

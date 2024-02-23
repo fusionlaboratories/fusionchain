@@ -1,9 +1,9 @@
 {
   "name": "fusionchain",
-  "author": "Qredo",
+  "author": "Fusion Laboratories LTD",
   "version": "1.0.0",
   "private": true,
-  "license": "Apache2",
+  "license": "BUSL-1.1",
   "engines": {
     "node": ">=8.3"
   },
