@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -24,11 +25,11 @@ func (k Keeper) Keys(goCtx context.Context, req *types.QueryKeysRequest) (*types
 
 	keys, page, err := query.GenericFilteredPaginate(k.cdc, keyStore, req.Pagination, func(key []byte, value *types.Key) (*types.KeyResponse, error) {
 		if req.WorkspaceAddr != "" && value.WorkspaceAddr != req.WorkspaceAddr {
-			return nil, nil
+			return nil, fmt.Errorf("workspace in the request is empty or doesn't match the available workspaces")
 		}
 
 		if req.KeyId > 0 && value.Id != req.KeyId {
-			return nil, nil
+			return nil, fmt.Errorf("key id in the request is empty or doesn't match the available keys")
 		}
 
 		response := &types.KeyResponse{

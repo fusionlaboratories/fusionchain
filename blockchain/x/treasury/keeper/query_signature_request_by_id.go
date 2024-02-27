@@ -18,8 +18,8 @@ func (k Keeper) SignatureRequestById(goCtx context.Context, req *types.QuerySign
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	signatureRequest, found := k.SignatureRequestsRepo().Get(ctx, req.Id)
-	if !found {
+	signatureRequest := k.GetSignRequest(ctx, req.Id)
+	if signatureRequest == nil {
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 

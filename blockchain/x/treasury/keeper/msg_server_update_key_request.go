@@ -13,8 +13,8 @@ import (
 func (k msgServer) UpdateKeyRequest(goCtx context.Context, msg *types.MsgUpdateKeyRequest) (*types.MsgUpdateKeyRequestResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	req, found := k.KeyRequestsRepo().Get(ctx, msg.RequestId)
-	if !found {
+	req := k.GetKeyRequest(ctx, msg.RequestId)
+	if req == nil {
 		return nil, fmt.Errorf("request not found")
 	}
 

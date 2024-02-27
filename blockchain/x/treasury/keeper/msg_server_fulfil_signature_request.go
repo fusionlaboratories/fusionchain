@@ -16,8 +16,8 @@ func (k msgServer) FulfilSignatureRequest(goCtx context.Context, msg *types.MsgF
 	// 	return nil, fmt.Errorf("only MPC can sign data")
 	// }
 
-	req, found := k.SignatureRequestsRepo().Get(ctx, msg.RequestId)
-	if !found {
+	req := k.GetSignRequest(ctx, msg.RequestId)
+	if req == nil {
 		return nil, fmt.Errorf("request not found")
 	}
 

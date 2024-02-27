@@ -22,7 +22,7 @@ Furthermore, the keyrings publish their responses in the treasury module.
 * [Msg Service](#msg-service)
     * [Msg/NewKeyRequest](#msgnewkeyrequest)
     * [Msg/UpdateKeyRequest](#msgupdatekeyrequest)
-    * [Msg/NewWalletRequest](#msgwewwalletrequest)
+    * [Msg/NewWalletRequest](#msgnewwalletrequest)
     * [Msg/NewSignatureRequest](#msgnewsignaturerequest)
     * [Msg/NewSignTransactionRequest](#msgnewsigntransactionrequest)
     * [Msg/FulfilSignatureRequest](#msgfulfilsignaturerequest)
