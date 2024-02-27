@@ -18,5 +18,5 @@ import (
 
 // x/policy module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrPolicyValidation = sdkerrors.Register(ModuleName, 1200, "policy validation required")
 )
