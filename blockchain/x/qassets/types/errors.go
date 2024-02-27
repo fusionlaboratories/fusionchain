@@ -10,5 +10,5 @@ import (
 
 // x/qassets module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrSample = sdkerrors.Register(ModuleName, 1300, "sample error")
 )

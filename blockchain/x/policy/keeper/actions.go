@@ -92,7 +92,8 @@ func TryExecuteAction[ReqT sdk.Msg, ResT any](
 		return handlerFn(ctx, msg)
 	}
 
-	return nil, nil
+	var res ResT
+	return &res, nil
 }
 
 func PolicyForAction(ctx sdk.Context, k *Keeper, act *types.Action) (policy.Policy, error) {
