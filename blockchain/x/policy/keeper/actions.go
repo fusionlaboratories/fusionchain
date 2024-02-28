@@ -138,6 +138,7 @@ func (k Keeper) AddAction(ctx sdk.Context, creator string, msg sdk.Msg, policyID
 	}
 
 	policyDataKv := mapToDeterministicSlice(policyData)
+
 	// create action object
 	act := types.Action{
 		Status:     types.ActionStatus_ACTION_STATUS_PENDING,

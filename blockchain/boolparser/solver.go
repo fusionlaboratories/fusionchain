@@ -21,6 +21,10 @@ var oprData = map[string]struct {
 	"<": {2, false, func(x, y float64) float64 { return b2f(x < y) }},
 	"&": {2, false, func(x, y float64) float64 { return b2f(f2b(x) && f2b(y)) }},
 	"|": {2, false, func(x, y float64) float64 { return b2f(f2b(x) || f2b(y)) }},
+	"≥": {2, false, func(x, y float64) float64 { return b2f(x >= y) }},
+	"≤": {2, false, func(x, y float64) float64 { return b2f(x <= y) }},
+	"≡": {2, false, func(x, y float64) float64 { return b2f(x == y) }},
+	"≢": {2, false, func(x, y float64) float64 { return b2f(x != y) }},
 	// "!": {2, false, func(x, y float64) float64 { return b2f(!f2b(x)) }},
 }
 
@@ -78,6 +82,17 @@ func Solve(s string) float64 {
 	return answer
 }
 
+// Search and replace two character operators with single unicode character for ease of parsing
+func MultiCharOperatorsToSingle(s string) string {
+	s = strings.ReplaceAll(s, ">=", "≥")
+	s = strings.ReplaceAll(s, "<=", "≤")
+	s = strings.ReplaceAll(s, "==", "≡")
+	s = strings.ReplaceAll(s, "!=", "≢")
+
+	return s
+}
+
 func BoolSolve(s string) bool {
+	s = MultiCharOperatorsToSingle(s)
 	return f2b(Solve(s))
 }
