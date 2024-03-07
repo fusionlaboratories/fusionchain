@@ -1,5 +1,22 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package kms
+
+import (
+	"errors"
+	"os"
+	"testing"
+
+	"github.com/qredo/fusionchain/keyring/pkg/api"
+	"github.com/qredo/fusionchain/keyring/pkg/logger"
+)
+
+var testConfig = ServiceConfig{
+	Port:      8080,
+	Keyring:   "qredokeyring1ph63us46lyw56vrzgaq",
+	LogLevel:  "fatal",
+	LogFormat: "plain",
 	LogToFile: false,
 	Mnemonic:  "exclude try nephew main caught favorite tone degree lottery device tissue tent ugly mouse pelican gasp lava flush pen river noise remind balcony emerge",
 }

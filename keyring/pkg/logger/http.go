@@ -1,6 +1,15 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
 
+package logger
+
+import (
+	"bytes"
+	"encoding/json"
+	"io"
+	"net/http"
+	"time"
+
 	"github.com/sirupsen/logrus"
 )
 

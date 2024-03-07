@@ -1,5 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package types
+
+import (
+	errorsmod "cosmossdk.io/errors"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
 const TypeMsgRemoveKeyringParty = "remove_keyring_party"
 
 func NewMsgRemoveKeyringParty(creator, keyringAddr, party string) *MsgRemoveKeyringParty {

@@ -1,5 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package types
+
+import (
+	"testing"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/qredo/fusionchain/testutil/sample"
+	"github.com/stretchr/testify/require"
 )
 
 func TestMsgNewPolicy_ValidateBasic(t *testing.T) {

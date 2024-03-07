@@ -1,5 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package types
+
+import (
+	"math/big"
+	"testing"
+
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_EthereumWallet_Address(t *testing.T) {

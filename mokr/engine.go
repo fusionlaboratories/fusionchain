@@ -1,5 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"github.com/qredo/fusionchain/go-client"
 	"github.com/qredo/fusionchain/x/treasury/types"
 )
 

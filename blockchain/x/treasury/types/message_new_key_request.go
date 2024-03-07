@@ -1,5 +1,22 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package types
+
+import (
+	errorsmod "cosmossdk.io/errors"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
+const TypeMsgNewKeyRequest = "new_key_request"
+
+var _ sdk.Msg = &MsgNewKeyRequest{}
+
+func NewMsgNewKeyRequest(creator, wsAddr, keyringAddr string, keyType KeyType, btl uint64) *MsgNewKeyRequest {
+	return &MsgNewKeyRequest{
+		Creator:       creator,
+		WorkspaceAddr: wsAddr,
 		KeyringAddr:   keyringAddr,
 		KeyType:       keyType,
 		Btl:           btl,
