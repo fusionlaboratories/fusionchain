@@ -1,5 +1,13 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+package types
+
+import (
+	"testing"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/qredo/fusionchain/testutil/sample"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

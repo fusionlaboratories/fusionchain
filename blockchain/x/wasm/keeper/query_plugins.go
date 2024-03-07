@@ -1,6 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
 
+package keeper
+
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/CosmWasm/wasmd/x/wasm/keeper"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	policykeeper "github.com/qredo/fusionchain/x/policy/keeper"
 	policy "github.com/qredo/fusionchain/x/policy/types"
 )

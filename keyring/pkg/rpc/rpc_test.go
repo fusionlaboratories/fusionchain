@@ -1,5 +1,13 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package rpc
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"

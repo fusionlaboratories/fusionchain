@@ -1,5 +1,46 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package mpc
+
+import (
+	"crypto/ecdsa"
+	"crypto/ed25519"
+	"encoding/hex"
+	"fmt"
+	"math/big"
+	"strconv"
+
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/ethereum/go-ethereum/common/math"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+)
+
+// GenerateKey - Generates (unsafe) private public key pair, used for mock and testing
+func generateKey(seed []byte, keyType CryptoSystem) (pubKeyBytes []byte, err error) {
+	switch keyType {
+	case EcDSA:
+		privateKey, _ := btcec.PrivKeyFromBytes(seed[:])
+		ecdsaPriv := privateKey.ToECDSA()
+		prvD := math.PaddedBigBytes(ecdsaPriv.D, 32)
+		if len(prvD) != 32 {
+			return nil, fmt.Errorf("error generating ecdsa private key: Priv key bit length: %v", 8*len(prvD))
+		}
+		prv, err := crypto.ToECDSA(prvD)
+		if err != nil {
+			return nil, fmt.Errorf("error genertaing ecdsa private/public key pair: Error %v. Priv key bitlength: %v", err, 8*len(seed))
+		}
+		pubKeyBytes = crypto.CompressPubkey(&prv.PublicKey)
+	case EdDSA:
+		privateKey, err := EDDSAPrivFromSeed(seed[:])
+		if err != nil {
+			return nil, fmt.Errorf("error generating eddsa signature %v", err)
+		}
+		pubKeyBytes = make([]byte, ed25519.PublicKeySize)
+		copy(pubKeyBytes, privateKey[32:])
+
+	default:
 		return nil, fmt.Errorf("key type %v not supported", keyType)
 	}
 	return pubKeyBytes, nil

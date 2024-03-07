@@ -1,5 +1,13 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package database
+
+import (
+	"strings"
+	"sync"
+)
+
 type Memory struct {
 	mu   sync.RWMutex
 	data map[string][]byte

@@ -1,5 +1,22 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package api
+
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+
+	"github.com/qredo/fusionchain/keyring/pkg/common"
+	"github.com/qredo/fusionchain/keyring/pkg/database"
+	"github.com/qredo/fusionchain/keyring/pkg/logger"
+)
+
+func Test_RateLimit(t *testing.T) {
 	n := "test"
 	log, err := logger.NewLogger("fatal", "plain", false, n)
 	if err != nil {

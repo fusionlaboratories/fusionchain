@@ -1,5 +1,13 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+package kms
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
+	"math/rand"
+	"testing"
 
 	"github.com/qredo/fusionchain/keyring/pkg/mpc"
 )

@@ -1,5 +1,14 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package database
+
+import "fmt"
+
+type Error string
+
+func (e Error) Error() string {
+	return string(e)
 }
 
 const (

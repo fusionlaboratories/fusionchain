@@ -1,5 +1,30 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package types
+
+import (
+	"testing"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/stretchr/testify/require"
+)
+
+func TestParamsValidate(t *testing.T) {
+	devShares := sdk.NewDecWithPrec(60, 2)
+	derivCostCreate := uint64(50)
+
+	testCases := []struct {
+		name     string
+		params   Params
+		expError bool
+	}{
+		{"default", DefaultParams(), false},
+		{
+			"valid: enabled",
+			NewParams(true, devShares, derivCostCreate),
+			false,
+		},
 		{
 			"valid: disabled",
 			NewParams(false, devShares, derivCostCreate),

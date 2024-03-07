@@ -1,5 +1,38 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package mpc
+
+import (
+	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
+	"math/rand"
+	"net/http/httptest"
+	"net/url"
+	"testing"
+
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/qredo/fusionchain/keyring/pkg/logger"
+)
+
+var (
+	pubkeySignature = []struct {
+		name     string
+		keyType  CryptoSystem
+		key, sig string
+	}{
+		{"ec1", EcDSA, "03247b3e83e7af4181b7f1bb8f8accc2ce517a7864271f8fd783f6d97345a8fbb5", "3ea20e0165a9d30b5377a7caf0ff62669308d8cee00e1059f71893e7cce5e66b4c4de8903697b8bdd2c7f0b173b218c3c20980a2537b17a09e26098d22966030"},
+		{"ec2", EcDSA, "021fd69c7baa1840a677c2d7a6a7d0789e2efd560c06532824c3656b4b07ef17bc", "cedf657a627dad1b83212b3a964556b941464a89bfd618db8a8c435ed33e99f675eec183c822ff30cc6af38af1bc8f4e7faf10a141c6181684db9dbdb3dfac74"},
+		{"ed1", EdDSA, "f76665b8e9b653e4891a171b05de04cc068ae2f5c184eca042b6ecb43cd4fe9f", "5d61e28f447d29cbff12b0f2a25e414d077da617149056a34eff9261b238deeedbc36851d96b893d01dc0ec18a8dc05f481ca8e0713cd5aa76caabd2955a5503"},
+		{"ed2", EdDSA, "34be4d83e727e66befea7f8647d601c19c9327aa8b2f6971fbd3e1a078c46f60", "bcda446236af2622ee535bea60dfd56b99c8186278d150e311d4307a58c133299de2fc3d50c7d9d8de8f894fb7bcb66449d5c6a37d7c65495e284eca45626b09"},
+	}
+
+	signature = []struct {
+		name           string
+		keyType        CryptoSystem
+		key, EcR, EcS  string
 		EdPk, EdR, EdS string
 	}{
 		{name: "ec1", keyType: EcDSA, key: "03b1e9709868446bfedc0ab1e4b0b30c5fe41a54a442cb5cc9eada8d8f60d6874f", EcR: "6d6bfa5c833c52f5510382c702e744c42f1777504484165dfb13d9fa8fec8cb5", EcS: "663f485ea167856eaded3e5382c319bb87da17a8700c1c282ce0f4ffa73a77eb"},

@@ -1,6 +1,15 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
-	// Address returns a human readable version of the address.
+// Address returns a human readable version of the address.
+
+package types
+
+import (
+	"fmt"
+	"math/big"
+)
+
+type Wallet interface {
 	Address() string
 }
 

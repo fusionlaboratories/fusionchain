@@ -1,5 +1,13 @@
 // Copyright (c) Fusion Laboratories LTD
 // SPDX-License-Identifier: BUSL-1.1
+
+package keeper_test
+
+// import (
+// 	"fmt"
+// 	"math"
+// 	"math/big"
+// 	"strings"
 // 	"github.com/qredo/fusionchain/precompiles/staking"
 
 // 	"github.com/ethereum/go-ethereum/common"
