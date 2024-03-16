@@ -281,10 +281,10 @@ packages:
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
-  /@buf/cosmos_cosmos-proto.bufbuild_es@1.6.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0):
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_cosmos-proto.bufbuild_es/-/cosmos_cosmos-proto.bufbuild_es-1.6.0-20211202220400-1935555c206d.1.tgz}
+  /@buf/cosmos_cosmos-proto.bufbuild_es@1.8.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0):
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_cosmos-proto.bufbuild_es/-/cosmos_cosmos-proto.bufbuild_es-1.8.0-20211202220400-1935555c206d.1.tgz}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.6.0
+      '@bufbuild/protobuf': ^1.8.0
     dependencies:
       '@bufbuild/protobuf': 1.6.0
     dev: false
@@ -312,14 +312,14 @@ packages:
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
-  /@buf/cosmos_cosmos-sdk.bufbuild_es@1.6.0-20221115045553-508e19f5f375.1(@bufbuild/protobuf@1.6.0):
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_cosmos-sdk.bufbuild_es/-/cosmos_cosmos-sdk.bufbuild_es-1.6.0-20221115045553-508e19f5f375.1.tgz}
+  /@buf/cosmos_cosmos-sdk.bufbuild_es@1.8.0-20221115045553-508e19f5f375.1(@bufbuild/protobuf@1.6.0):
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_cosmos-sdk.bufbuild_es/-/cosmos_cosmos-sdk.bufbuild_es-1.8.0-20221115045553-508e19f5f375.1.tgz}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.6.0
+      '@bufbuild/protobuf': ^1.8.0
     dependencies:
-      '@buf/cosmos_cosmos-proto.bufbuild_es': 1.6.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0)
-      '@buf/cosmos_gogo-proto.bufbuild_es': 1.6.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0)
-      '@buf/googleapis_googleapis.bufbuild_es': 1.6.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0)
+      '@buf/cosmos_cosmos-proto.bufbuild_es': 1.8.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0)
+      '@buf/cosmos_gogo-proto.bufbuild_es': 1.8.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0)
+      '@buf/googleapis_googleapis.bufbuild_es': 1.8.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0)
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
@@ -339,10 +339,10 @@ packages:
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
-  /@buf/cosmos_gogo-proto.bufbuild_es@1.6.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0):
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_gogo-proto.bufbuild_es/-/cosmos_gogo-proto.bufbuild_es-1.6.0-20221020125208-34d970b699f8.1.tgz}
+  /@buf/cosmos_gogo-proto.bufbuild_es@1.8.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0):
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/cosmos_gogo-proto.bufbuild_es/-/cosmos_gogo-proto.bufbuild_es-1.8.0-20221020125208-34d970b699f8.1.tgz}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.6.0
+      '@bufbuild/protobuf': ^1.8.0
     dependencies:
       '@bufbuild/protobuf': 1.6.0
     dev: false
@@ -368,15 +368,15 @@ packages:
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
-  /@buf/evmos_evmos.bufbuild_es@1.6.0-20230705123045-394eea30e764.1(@bufbuild/protobuf@1.6.0):
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/evmos_evmos.bufbuild_es/-/evmos_evmos.bufbuild_es-1.6.0-20230705123045-394eea30e764.1.tgz}
+  /@buf/evmos_evmos.bufbuild_es@1.8.0-20230705123045-394eea30e764.1(@bufbuild/protobuf@1.6.0):
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/evmos_evmos.bufbuild_es/-/evmos_evmos.bufbuild_es-1.8.0-20230705123045-394eea30e764.1.tgz}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.6.0
+      '@bufbuild/protobuf': ^1.8.0
     dependencies:
-      '@buf/cosmos_cosmos-proto.bufbuild_es': 1.6.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0)
-      '@buf/cosmos_cosmos-sdk.bufbuild_es': 1.6.0-20221115045553-508e19f5f375.1(@bufbuild/protobuf@1.6.0)
-      '@buf/cosmos_gogo-proto.bufbuild_es': 1.6.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0)
-      '@buf/googleapis_googleapis.bufbuild_es': 1.6.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0)
+      '@buf/cosmos_cosmos-proto.bufbuild_es': 1.8.0-20211202220400-1935555c206d.1(@bufbuild/protobuf@1.6.0)
+      '@buf/cosmos_cosmos-sdk.bufbuild_es': 1.8.0-20221115045553-508e19f5f375.1(@bufbuild/protobuf@1.6.0)
+      '@buf/cosmos_gogo-proto.bufbuild_es': 1.8.0-20221020125208-34d970b699f8.1(@bufbuild/protobuf@1.6.0)
+      '@buf/googleapis_googleapis.bufbuild_es': 1.8.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0)
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
@@ -404,10 +404,10 @@ packages:
       '@bufbuild/protobuf': 1.6.0
     dev: false
 
-  /@buf/googleapis_googleapis.bufbuild_es@1.6.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0):
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/googleapis_googleapis.bufbuild_es/-/googleapis_googleapis.bufbuild_es-1.6.0-20221025150512-783e4b5374fa.1.tgz}
+  /@buf/googleapis_googleapis.bufbuild_es@1.8.0-20221025150512-783e4b5374fa.1(@bufbuild/protobuf@1.6.0):
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/googleapis_googleapis.bufbuild_es/-/googleapis_googleapis.bufbuild_es-1.8.0-20221025150512-783e4b5374fa.1.tgz}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.6.0
+      '@bufbuild/protobuf': ^1.8.0
     dependencies:
       '@bufbuild/protobuf': 1.6.0
     dev: false
@@ -1243,7 +1243,7 @@ packages:
     dependencies:
       '@buf/cosmos_cosmos-sdk.bufbuild_es': 1.0.0-20231220215038-eb4a9a315774.1(@bufbuild/protobuf@1.6.0)
       '@buf/cosmos_ibc.bufbuild_es': 1.0.0-20231221153343-c805262eb055.1(@bufbuild/protobuf@1.6.0)
-      '@buf/evmos_evmos.bufbuild_es': 1.6.0-20230705123045-394eea30e764.1(@bufbuild/protobuf@1.6.0)
+      '@buf/evmos_evmos.bufbuild_es': 1.8.0-20230705123045-394eea30e764.1(@bufbuild/protobuf@1.6.0)
       '@bufbuild/protobuf': 1.6.0
       '@types/node': 17.0.45
       link-module-alias: 1.2.0
@@ -3453,7 +3453,7 @@ packages:
   /axios@1.6.2:
     resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
     dependencies:
-      follow-redirects: 1.15.4
+      follow-redirects: 1.15.6
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -4397,8 +4397,8 @@ packages:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
     dev: true
 
-  /follow-redirects@1.15.4:
-    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
+  /follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
